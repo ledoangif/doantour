@@ -1,0 +1,292 @@
+<template>
+    <Form @submit="handleSubmit">
+        <CVModal id_model="create-update-TourHotel-modal">
+            <template #icon>
+                <slot name="icon"></slot>
+            </template>
+            <template #title>
+                <span v-if="!isEditMode">
+                    <slot name="header">Thêm Điểm dừng chân </slot>
+                </span>
+                <span v-else>
+                    <slot name="header">Cập nhật Điểm dừng chân </slot>
+                </span>
+            </template>
+            <template #body>
+                <div class="row">
+                    <div class="row col-lg-6 mb-3 form-group required">
+                        <div class="row mb-3 form-group required">
+                            <label
+                                for="source-name"
+                                class="col-sm-4 col-form-label control-label text-end"
+                            >
+                                Tên Điểm dừng chân
+                            </label>
+                            <div class="col-sm-8">
+                                <Field
+                                    as="select"
+                                    id="hotel"
+                                    name="hotel"
+                                    v-model="TourHotel.hotelId"
+                                    class="form-control"
+                                >
+                                    <option
+                                        v-for="item in Hotel"
+                                        class="text-dark"
+                                        :value="item.id"
+                                    >
+                                        {{ item.hotelName }}
+                                    </option>
+                                </Field>
+                            </div>
+                        </div>
+                        <div class="row mb-3 form-group required">
+                            <label
+                                for="source-name"
+                                class="col-sm-4 col-form-label control-label text-end"
+                            >
+                                Ghi chú
+                            </label>
+                            <div class="col-sm-8">
+                                <Field
+                                    name="note"
+                                    v-model="TourHotel.note"
+                                    type="text"
+                                    class="form-control"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-lg-6 mb-3 form-group required">
+                        <div class="row mb-3 form-group required">
+                            <label
+                                for="source-name"
+                                class="col-sm-4 col-form-label control-label text-end"
+                            >
+                                Ngày bắt đầu
+                            </label>
+                            <div class="col-sm-8">
+                                <Field
+                                    name="dateStart"
+                                    v-model="TourHotel.dateStart"
+                                    type="date"
+                                    class="form-control"
+                                />
+                            </div>
+                        </div>
+                        <div class="row mb-3 form-group required">
+                            <label
+                                for="source-name"
+                                class="col-sm-4 col-form-label control-label text-end"
+                            >
+                                Ngày kết thúc
+                            </label>
+                            <div class="col-sm-8">
+                                <Field
+                                    name="dateEnd"
+                                    v-model="TourHotel.dateEnd"
+                                    type="date"
+                                    class="form-control"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <TipTap v-model="TourHotel.nameTourHotel"></TipTap> -->
+                </div>
+
+                <div class="modal-footer align-content-center justify-content-center">
+                    <button
+                        v-if="isEditMode"
+                        type="submit"
+                        class="btn btn-sm btn-primary d-flex align-items-center"
+                        data-bs-dismiss="modal"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="0.88em"
+                            height="1em"
+                            viewBox="0 -70 700 700"
+                        >
+                            <path
+                                fill="#f7f7f7"
+                                d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64c0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A11.996 11.996 0 0 1 320 111.48"
+                            />
+                        </svg>
+                        Lưu
+                    </button>
+                    <button
+                        v-else
+                        type="submit"
+                        class="btn btn-sm btn-primary d-flex align-items-center"
+                        data-bs-dismiss="modal"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="10px"
+                            height="10px"
+                            viewBox="0 -70 700 700"
+                        >
+                            <path
+                                fill="#f7f7f7"
+                                d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64c0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A11.996 11.996 0 0 1 320 111.48"
+                            />
+                        </svg>
+                        Thêm
+                    </button>
+                    <button
+                        type="reset"
+                        class="btn btn-sm btn-outline-primary d-flex align-items-center"
+                        data-bs-dismiss="modal"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 -70 700 700"
+                            class="icon"
+                            width="10px"
+                            height="10px"
+                        >
+                            <path
+                                fill="#006eff"
+                                d="m257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3"
+                            />
+                        </svg>
+                        Huỷ bỏ
+                    </button>
+                </div>
+            </template>
+        </CVModal>
+    </Form>
+</template>
+
+<script setup>
+import { ref, watch } from 'vue';
+import Api from '~/service/Base/api.ts';
+import { Form, Field } from 'vee-validate';
+import { format } from 'date-fns';
+const api = new Api();
+const emits = defineEmits(['TourHotel-saved']);
+
+/** received data */
+const props = defineProps({
+    editTourHotel: {
+        type: Object,
+        default: null,
+        required: false,
+    },
+    isEditMode: {
+        type: Boolean,
+        default: false,
+        required: true,
+    },
+    tourId: {
+        type: Number,
+        default: null,
+        required: true,
+    },
+});
+
+const formRef = ref(null);
+const Hotel = ref([]);
+const Tour = ref([]);
+
+/** reset form */
+const resetForm = () => {
+    if (formRef.value) {
+        formRef.value.resetForm();
+    }
+};
+onMounted(async () => {
+    const resTour = await api.get(`/Tour`, null);
+    Tour.value = resTour.data.responseData;
+    const resHotel = await api.get(`/Hotel`, null);
+    Hotel.value = resHotel.data.responseData;
+});
+/**
+ * define TourHotel
+ */
+const TourHotel = ref({
+    hotelId: '',
+    tourId: '',
+    note: '',
+    dateStart: '',
+    dateEnd: '',
+});
+
+const formatDate = (date) => {
+    return format(new Date(date), 'yyyy-MM-dd');
+};
+/** validate */
+
+/**
+ * insert TourHotel
+ */
+const createTourHotel = () => {
+    const formData = new FormData();
+    formData.append('hotelId', TourHotel.value.hotelId);
+    formData.append('note', TourHotel.value.note);
+    formData.append('dateStart', TourHotel.value.dateStart);
+    formData.append('dateEnd', TourHotel.value.dateEnd);
+    formData.append('tourId', props.tourId);
+    api.postAPI('/TourHotel', formData)
+        .then((res) => {
+            emits('TourHotel-saved');
+            $('#create-update-TourHotel-modal').modal('hide');
+        })
+        .catch((error) => {
+            console.error('Error creating TourHotel:', error);
+        });
+    resetForm();
+};
+
+/** update TourHotel */
+const updateTourHotel = () => {
+    const data = {
+        hotelId: TourHotel.value.hotelId,
+        note: TourHotel.value.note,
+        dateStart: TourHotel.value.dateStart,
+        dateEnd: TourHotel.value.dateEnd,
+        tourId: props.tourId,
+        id: props.editTourHotel.id,
+    };
+
+    api.putAPI(`/TourHotel/${props.editTourHotel.id}`, data)
+        .then((res) => {
+            emits('TourHotel-saved');
+            $('#create-update-TourHotel-modal').modal('hide');
+        })
+        .catch((error) => {
+            console.error('Error updating TourHotel:', error);
+        });
+    resetForm();
+};
+
+/**
+ * handle submit
+ */
+const handleSubmit = () => {
+    if (props.isEditMode) {
+        updateTourHotel();
+    } else {
+        createTourHotel();
+    }
+};
+
+/**
+ * update data of edit TourHotel
+ */
+watch(
+    () => props.editTourHotel,
+    (newVal) => {
+        if (newVal) {
+            TourHotel.value = { ...newVal };
+            TourHotel.value.dateEnd = props.editTourHotel.dateEnd
+                ? props.editTourHotel.dateEnd.split('T')[0]
+                : '';
+            TourHotel.value.dateStart = props.editTourHotel.dateStart
+                ? props.editTourHotel.dateStart.split('T')[0]
+                : '';
+        }
+    },
+    { immediate: true },
+);
+</script>
