@@ -28,8 +28,10 @@
                                     v-model="Tour.image"
                                     type="file"
                                     class="form-control"
+                                    :rules="{ required: true}"
                                     @change="handlefiles"
                                 />
+                                <ErrorMessage name="image" class="text-danger" />
                             </div>
                         </div>
                         <div class="row form-group required">
@@ -37,7 +39,7 @@
                                 for="source-name"
                                 class="col-sm-4 col-form-label control-label text-end"
                             >
-                                SL Vé
+                                Số lượng vé
                             </label>
                             <div class="col-sm-8">
                                 <Field
@@ -45,7 +47,9 @@
                                     name="seat"
                                     v-model="Tour.seat"
                                     class="form-control"
+                                    :rules="{ required: true}"
                                 />
+                                <ErrorMessage name="seat" class="text-danger" />
                                 <br />
                             </div>
                         </div>
@@ -62,8 +66,10 @@
                                     name="cost"
                                     v-model="computedValue"
                                     class="form-control"
+                                    :rules="{ required: true}"
                                     @click="handleInput"
                                 />
+                                <ErrorMessage name="cost" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -79,7 +85,9 @@
                                     v-model="Tour.discount"
                                     type="text"
                                     class="form-control"
+                                    :rules="{ required: true}"
                                 />
+                                <ErrorMessage name="discount" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -123,7 +131,7 @@
                                     class="form-control"
                                 >
                                     <option
-                                        v-for="item in Country"
+                                        v-for="item in filteredCountries"
                                         class="text-dark"
                                         :value="item.id"
                                     >
@@ -145,7 +153,9 @@
                                     v-model="Tour.place"
                                     type="text"
                                     class="form-control"
+                                    :rules="{ required: true}"
                                 />
+                                <ErrorMessage name="place" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -161,7 +171,9 @@
                                     v-model="Tour.placeStart"
                                     type="text"
                                     class="form-control"
+                                    :rules="{ required: true}"
                                 />
+                                <ErrorMessage name="placeStart" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -177,7 +189,9 @@
                                     v-model="Tour.meetingPoint"
                                     type="text"
                                     class="form-control"
+                                    :rules="{ required: true}"
                                 />
+                                <ErrorMessage name="meetingPoint" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -193,7 +207,9 @@
                                     v-model="Tour.placeEnd"
                                     type="text"
                                     class="form-control"
+                                    :rules="{ required: true}"
                                 />
+                                <ErrorMessage name="placeEnd" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
@@ -210,7 +226,9 @@
                                         v-model="Tour.timeStart"
                                         type="time"
                                         class="input-edit me-1 form-control"
+                                        :rules="{ required: true}"
                                     />
+                                    <ErrorMessage name="timeStart" class="text-danger" />
                                 </span>
                                 <span class="col-8 ms-2">
                                     <Field
@@ -218,7 +236,9 @@
                                         v-model="Tour.dateStart"
                                         type="date"
                                         class="form-control"
+                                        :rules="{ required: true}"
                                     />
+                                    <ErrorMessage name="dateStart" class="text-danger" />
                                 </span>
                             </div>
                         </div>
@@ -236,14 +256,19 @@
                                         v-model="Tour.timeEnd"
                                         type="time"
                                         class="input-edit me-1 form-control"
-                                /></span>
+                                        :rules="{ required: true}"
+                                    />
+                                    <ErrorMessage name="timeEnd" class="text-danger" />
+                                </span>
                                 <span class="col-8 ms-2">
                                     <Field
                                         name="dateEnd"
                                         v-model="Tour.dateEnd"
                                         type="date"
                                         class="form-control"
+                                        :rules="{ required: true}"
                                     />
+                                    <ErrorMessage name="dateEnd" class="text-danger" />
                                 </span>
                             </div>
                         </div>
@@ -256,13 +281,16 @@
                                 >Tên Tour
                             </label>
                             <div class="col-9">
-                                <textarea
+                                <Field 
+                                    as="textarea"
                                     name="nameTour"
                                     v-model="Tour.nameTour"
                                     type="text"
                                     class="form-control"
                                     style="height: 50px"
+                                    :rules="{ required: true}"
                                 />
+                                <ErrorMessage name="nameTour" class="text-danger" />
                             </div>
                         </div>
                         <div class="row form-group required mb-3">
@@ -272,13 +300,35 @@
                                 >Mô tả
                             </label>
                             <div class="col-sm-9">
-                                <textarea
+                                <Field 
+                                    as="textarea"
                                     name="descripttion"
                                     v-model="Tour.descripttion"
                                     type="text"
                                     class="form-control"
                                     style="height: 150px"
+                                    :rules="{ required: true}"
                                 />
+                                <ErrorMessage name="descripttion" class="text-danger" />
+                            </div>
+                        </div>
+                        <div class="row form-group required mb-3">
+                            <label
+                                for="source-name"
+                                class="col-sm-3 col-form-label control-label text-end"
+                                >Dịch vụ bao gồm
+                            </label>
+                            <div class="col-sm-9">
+                                <Field 
+                                    as="textarea"
+                                    name="serviceInclude"
+                                    v-model="Tour.serviceInclude"
+                                    type="text"
+                                    class="form-control"
+                                    style="height: 150px"
+                                    :rules="{ required: true}"
+                                />
+                                <ErrorMessage name="serviceInclude" class="text-danger" />
                             </div>
                         </div>
                         <div class="row form-group required mb-3">
@@ -423,6 +473,7 @@ const Tour = ref({
     image: '',
     serviceInclude: '',
     serviceNotInclude: '',
+    guideId: '',
     countryId: '',
     isLocal: '',
     meetingPoint: '',
@@ -433,14 +484,34 @@ const resetForm = () => {
         formRef.value.resetForm();
     }
 };
-const handlefiles = async (event) => {
-    const files = event.target.files;
-    const formData = new FormData();
-    formData.append('ImageFile', files[0]);
-    var ImageResponse = await api.postAPI('/Tour/UploadFile', formData);
-    Tour.value.image = ImageResponse.data;
-};
 
+const handlefiles = async (event) => {
+    const input = event.target;
+    const file = input.files?.[0];
+
+    // Kiểm tra định dạng ảnh
+    const allowedFormats = ['jpg', 'jpeg', 'png'];
+    const fileExtension = file?.name.split('.').pop()?.toLowerCase();
+
+    if (!fileExtension || !allowedFormats.includes(fileExtension)) {
+        alert('Chỉ chấp nhận các định dạng ảnh JPG, PNG');
+        return;
+    }
+
+    // Thực hiện upload ảnh
+    const formData = new FormData();
+    formData.append('ImageFile', file);
+
+    try {
+        const response = await api.postAPI('/Tour/UploadFile', formData);
+        Tour.value.countryImage = response.data; // Lưu đường dẫn ảnh trả về vào Country
+        errorMessage.value = ''; // Reset thông báo lỗi
+    } catch (error) {
+        console.error('Upload image failed:', error);
+        errorMessage.value = 'Lỗi khi tải lên hình ảnh. Vui lòng thử lại.';
+        //alert('Lỗi khi tải lên hình ảnh. Vui lòng thử lại.');
+    }
+};
 const isLocal = [
     { id: 1, value: true },
     { id: 2, value: false },
@@ -453,7 +524,6 @@ if(process.client)
     accountId.value = localStorage.getItem('userId');
 }
 const fetchData = async () => {
-
     try {
         const resCountry = await api.get(`/Country`, null);
         Country.value = resCountry.data.responseData;
@@ -524,6 +594,7 @@ const updateTour = async () => {
         image: Tour.value.image || '',
         serviceInclude: Tour.value.serviceInclude || '',
         serviceNotInclude: Tour.value.serviceNotInclude || '',
+        guideId: Tour.value.guideId || '',
         countryId: Tour.value.countryId || '',
         timeEnd: Tour.value.timeEnd || '',
         timeStart: Tour.value.timeStart || '',
@@ -576,6 +647,30 @@ watch(
     },
     { immediate: true },
 );
+// Watch for changes in isLocal value to adjust CountryId
+watch(() => Tour.value.isLocal, (newValue) => {
+    if (newValue) {
+        // Khi là tour nội địa, gán CountryId là Việt Nam (ID = 1)
+        const vietnam = Country.value.find(country => country.id === 1); // Tìm Việt Nam theo ID
+        if (vietnam) {
+            Tour.value.countryId = vietnam.id;
+        }
+    } else {
+        // Khi là tour ngoài nước, không cho phép chọn Việt Nam và gán countryId về null
+        Tour.value.countryId = null;
+    }
+});
+
+// Lọc quốc gia dựa trên giá trị của isLocal
+const filteredCountries = computed(() => {
+    if (Tour.value.isLocal) {
+        // Khi là tour nội địa, chỉ hiển thị Việt Nam (ID = 1)
+        return Country.value.filter(country => country.id === 1); // Lọc theo ID Việt Nam
+    } else {
+        // Khi không phải tour nội địa, hiển thị tất cả quốc gia ngoại trừ Việt Nam (ID = 1)
+        return Country.value.filter(country => country.id !== 1); // Lọc tất cả ngoại trừ Việt Nam
+    }
+});
 const computedValue = computed({
     get: () => {
         var input = String(Tour.value.cost || '').replace(/[\D\s\._\-]+/g, '');

@@ -190,7 +190,7 @@
                     </div>
                     <span class="text-danger ps-4" v-if="showHotline">
                         Bạn liên hệ hoteline
-                        <span class="px-4"> 0236789878</span></span
+                        <span class="px-4"> +84962383838</span></span
                     >
                     <form @submit.prevent="sendEmail">
                         <button
@@ -308,16 +308,22 @@
                                 ></i>
                             </span>
                             <div class="ms-4 pb-3" v-if="cancel">
-                                - Sau khi đóng tiền, nếu Quý khách muốn chuyển/huỷ tour
-                                xin vui lòng mang Vé Du Lịch đến văn phòng đăng ký tour để
-                                làm thủ tục chuyển/huỷ tour và chịu mất phí theo quy định
-                                của Vietravel. Không giải quyết các trường hợp liên hệ
-                                chuyển/huỷ tour qua điện thoại.<br />
-                                <div class="mt-3">
-                                    - Thời gian hủy chuyến du lịch được tính cho ngày làm
-                                    việc, không tính thứ 7, Chủ Nhật và các ngày Lễ,
-                                    Tết.i.
-                                </div>
+                                Sau khi hoàn tất thanh toán, nếu Quý khách muốn hủy hoặc chuyển tour, vui lòng liên hệ trực tiếp qua điện thoại 
+                                hoặc email để yêu cầu hủy tour.
+                                Hachutravel sẽ hỗ trợ Quý khách xử lý thủ tục hủy tour và áp dụng phí hủy theo quy định.
+                                <ul>
+                                    <li>- Hủy tour sau khi đặt cọc: mất 100% tiền cọc</li>
+                                    <li>- Hủy tour khi đã thanh toán 100% tổng giá trị tour sẽ tính phí theo thời điểm thông báo hủy (Không tính ngày lễ và chủ nhật) như sau:
+                                        <ul>
+                                            <li>+ Sau khi đặt tour, hủy tour mất 10% tổng giá trị tour</li>
+                                            <li>+ Từ 11 đến 15 ngày trước ngày khởi hành: chịu phí 30% tổng giá trị tour</li>
+                                            <li>+ Từ 6 đến 10 ngày trước ngày khởi hành: chịu phí 50% tổng giá trị tour</li>
+                                            <li>+ Từ 2 đến 5 ngày trước ngày khởi hành: chịu phí 70% tổng giá trị tour</li>
+                                            <li>+ Từ 1 ngày trước ngày khởi hành: chịu phí 100% tổng giá trị tour</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+
                             </div>
                         </div>
                         <div class="bg-light rounded mt-2">
@@ -352,7 +358,7 @@
                                     >Chương trình có thể thay đổi tùy vào tình hình thực
                                     tế</span
                                 ><br />
-                                Mọi chi tiết xin liên hệ : +84238790987 <br />
+                                Mọi chi tiết xin liên hệ : +84962383838 <br />
                                 66 ngách 6/46 Miêu Nha, Tây Mỗ, Nam Từ Liêm, Hà Nội<br />
                                 KÍNH CHÚC QUÝ KHÁCH MỘT CHUYẾN DU LỊCH VUI VẺ & THÚ VỊ!<br />
                             </div>
@@ -408,7 +414,7 @@ const callPhone = async () => {
 
 const sendEmail = async () => {
     const subject = 'Hỗ trợ đặt tour';
-    window.location.href = `mailto:vychu8717@gmail.com?subject=${subject}`;
+    window.location.href = `mailto:hachutraveltour@gmail.com?subject=${subject}`;
 };
 
 const fetchData = async () => {
@@ -449,4 +455,10 @@ onMounted(async () => {
 @import '../../assets/vendor/mdi-font/css/material-design-iconic-font.min.css';
 @import '../../assets/vendor/font-awesome-4.7/css/font-awesome.min.css';
 @import '../../assets/vendor/select2/select2.min.css';
+ul{
+    margin-left: 10px; /* Điều chỉnh khoảng cách thụt vào */
+}
+ul ul {
+        margin-left: 20px; /* Điều chỉnh khoảng cách thụt vào */
+    }
 </style>

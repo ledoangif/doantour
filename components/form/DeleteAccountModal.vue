@@ -43,6 +43,7 @@ export default {
             axios.delete(`https://localhost:44308/api/Account/${id}`).then((res) => {
                 this.$emit('account-deleted', id);
                 $('#deleteAccountModal').modal('hide');
+                this.$toast.success("Xóa thành công!");
                 $('.btn-close').click();
             });
         },

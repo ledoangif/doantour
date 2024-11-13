@@ -301,13 +301,15 @@ const resetSearchForm = async () => {
 /**
  * search
  */
+
 const search = async () => {
     try {
         if (!searchString.value) {
             getCountrys();
             return;
         } else {
-            const res = await api.get(`/Country/search/${searchString.value}`, null);
+            const res = await api.get(`/Country/SearchCountryNameAdmin/${searchString.value}`, null);
+            //if(res.data.responseDa thế để đấy
             Countrys.value = res.data.responseData;
         }
     } catch (err) {

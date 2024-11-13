@@ -110,7 +110,7 @@
                                 <option disabled value="Nơi kết thúc">
                                     Nơi kết thúc
                                 </option>
-                                <option v-for="item in Country" :value="item.id">
+                                <option v-for="item in filteredCountries" :value="item.id">
                                     {{ item.countryName }}
                                 </option>
                             </select>
@@ -197,7 +197,7 @@
                             <th>No.</th>
                             <th>Thông tin tour</th>
                             <th>Thời gian</th>
-                            <th>Người tạo</th>
+                            <!-- <th>Người tạo</th> -->
                             <th>Tác vụ</th>
                         </tr>
                     </thead>
@@ -263,13 +263,13 @@
                                 {{ formatDate(Tour.dateStart) }}<br />
                                 {{ formatDate(Tour.dateEnd) }}
                             </td>
-                            <td class="w-20">
+                            <!-- <td class="w-20">
                                 <span v-for="item in User">
                                     <span v-if="item.id == Tour.appUserId">
                                         {{ item.fullName }}</span
                                     ></span
                                 >
-                            </td>
+                            </td> -->
                             <td class="p-4">
                                 <div
                                     class="d-flex justify-content-center align-content-center align-items-center"
@@ -588,24 +588,20 @@ const setPage = (number) => {
     pageNumber.value = number;
     getTours();
 };
-
-/**
- * Excel
- */
-const excelExport = async () => {
-    let options = {
-        responseType: 'blob',
-    };
-
-    const apiUrl = `/Tour/ExcelExportTour`;
-    var response = await api.get(apiUrl, options);
-    var blob = new Blob([response.data], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+// const filteredCountries = computed(() => {
+//     // Nếu tour là nước ngoài, loại bỏ Việt Nam khỏi danh sách
+//     if (!Tour.value.isLocal) {
+//         return Country.value.filter(country => country.id !== 1);
+//     }
+//     return Country.value;
+// });
+// Lọc quốc gia tùy thuộc vào loại tour
+const filteredCountries = computed(() => {
+      if (!isLocal.value) {
+        // Nếu là tour nước ngoài, loại bỏ Việt Nam khỏi danh sách
+        return Country.value.filter(country => country.id !== 1);
+      }
+      return Country.value;
     });
-    var link = document.createElement('a');
-    link.href = window.URL.createObjectURL(blob);
-    link.setAttribute('download', 'Tour_CV.xlsx');
-    document.body.appendChild(link);
-    link.click();
-};
+
 </script>

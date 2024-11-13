@@ -108,7 +108,7 @@
                                 <option disabled value="Nơi kết thúc">
                                     Nơi kết thúc
                                 </option>
-                                <option v-for="item in Country" :value="item.id">
+                                <option v-for="item in filteredCountries" :value="item.id">
                                     {{ item.countryName }}
                                 </option>
                             </select>
@@ -508,6 +508,14 @@ const sortToursByPriceAescending = () => {
         return priceA - priceB;
     });
 };
+// Lọc quốc gia tùy thuộc vào loại tour
+const filteredCountries = computed(() => {
+      if (!isLocal.value) {
+        // Nếu là tour nước ngoài, loại bỏ Việt Nam khỏi danh sách
+        return Country.value.filter(country => country.id !== 1);
+      }
+      return Country.value;
+    });
 
 /**
  * Permission

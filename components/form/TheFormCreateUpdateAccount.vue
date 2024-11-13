@@ -28,6 +28,7 @@
                             :rules="{ required: true, email: true }"
                         />
                         <ErrorMessage name="email" class="text-danger" />
+                        <span v-if="emailError" class="text-danger">{{ emailError }}</span>
                     </div>
                 </div>
 
@@ -71,8 +72,7 @@
                     <label
                         for="phoneNumber"
                         class="col-sm-2 col-form-label control-label text-end"
-                        >Điện thoại</label
-                    >
+                        >Điện thoại</label>
                     <div class="col-sm-9">
                         <Field
                             name="phoneNumber"
@@ -167,6 +167,7 @@ export default {
                 phone: null,
                 roleId: 2,
             },
+            emailError: "", // Thông báo lỗi email trùng
         };
     },
     watch: {
@@ -186,27 +187,83 @@ export default {
         },
     },
     methods: {
+        
         /**
          * Create a new account
          */
-        createAccount() {
-            api.postAPI('/Account/register', this.account)
-                .then((res) => {
-                    this.$emit('account-saved');
-                    $('.cancel-btn').click();
-                    $(`#${this.id_modal}`).modal('hide');
-                })
-                .catch((err) => {});
-        },
-        /**
-         * Edit account
-         */
-        updateAccount() {
-            api.putAPI(`/Account/${this.editAccount.id}`, this.account).then((res) => {
-                $('.cancel-btn').click();
-                $(`#${this.id_modal}`).modal('hide');
-                this.$emit('account-saved');
+        // createAccount() {
+        //     api.postAPI('/Account/register', this.account)
+        //         .then((res) => {
+        //             this.$emit('account-saved');
+        //             $('.cancel-btn').click();
+        //             $(`#${this.id_modal}`).modal('hide');
+        //         })
+        //         .catch((err) => {});
+        // },
+        async createAccount() {
+        // Kiểm tra email trước
+        try {
+            const response = await api.get(`/Account/email`, {
+                params: { email: this.account.email }
             });
+            if (response.data.responseData) {
+                this.emailError = "Email này đã tồn tại.";
+                return; // Dừng lại nếu email đã tồn tại
+            } else {
+                this.emailError = ""; // Xóa thông báo lỗi nếu email không trùng
+            }
+
+            // Nếu email không trùng, tiến hành gọi API đăng ký
+            await api.postAPI('/Account/register', this.account);
+            this.$emit('account-saved'); // Phát sự kiện lưu thành công
+            $('.cancel-btn').click();
+            $(`#${this.id_modal}`).modal('hide'); // Ẩn modal
+        } catch (err) {
+            console.error(err);
+        }
+    },
+
+        async updateAccount() {
+        // Kiểm tra xem dữ liệu có thay đổi so với dữ liệu ban đầu không
+        const isChanged = Object.keys(this.account).some(
+            key => this.account[key] !== this.editAccount[key]
+        );
+        if (!isChanged) {
+            //this.emailError = "Không có thay đổi nào được thực hiện.";
+            return; // Không thực hiện cập nhật và không ẩn modal nếu không có thay đổi
+        }
+        //Kiểm tra email đã tồn tại chưa, nếu đã tồn tại thì báo lỗi
+        try {
+            const response = await api.get(`/Account/email`, {
+                params: { email: this.account.email }
+            });
+            if (response.data.responseData) {
+                this.emailError = "Email này đã tồn tại.";
+                return; // Dừng lại nếu email đã tồn tại
+            } else {
+                this.emailError = ""; // Xóa thông báo lỗi nếu email không trùng
+            }
+            await api.putAPI(`/Account/${this.editAccount.id}`, this.account);
+            this.$emit('account-saved');
+            $('.cancel-btn').click();
+            $(`#${this.id_modal}`).modal('hide'); // Ẩn modal sau khi cập nhật thành công
+        } catch (err) {
+            console.error(err);
+        }
+    },
+        async getAccountByEmail() {
+            try {
+                const response = await api.get(`/Account/email`, {
+                    params: { email: this.account.email }
+                });
+                if (response.data.responseData) {
+                    this.emailError = "Email đã được sử dụng.";
+                } else {
+                    this.emailError = "";
+                }
+            } catch (err) {
+                console.error(err);
+            }
         },
         handleSubmit() {
             if (!this.isEditMode) {

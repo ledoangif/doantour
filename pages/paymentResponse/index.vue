@@ -4,14 +4,14 @@
     <div class="container d-flex flex-row">
       <div class="me-2 text-primary">1. Nhập thông tin ></div>
       <div class="me-2 text-primary">2. Đặt cọc ></div>
-      <div class="text-primary">3. Trạng thái đặt cọc</div>
+      <div class="text-primary">3. Kết quả</div>
     </div>
   </div>
   
   <div class="container payment-response mt-4">
-    <h1 class="text-center">Kết quả thanh toán</h1>
+    <h1 class="text-center">Kết quả đặt tour</h1>
     <div v-if="isSuccess">
-      <h2 class="text-success text-center">Thanh toán thành công!</h2>
+      <h2 class="text-success text-center">Đặt tour thành công!</h2>
       <table class="table table-bordered mt-3">
         <thead class="table-light">
           <tr>
@@ -21,7 +21,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>BookingId</td>
+            <td>Mã đặt tour</td>
             <td>{{ orderDescription }}</td>
           </tr>
           <tr>
@@ -40,18 +40,22 @@
             <td>ID thanh toán</td>
             <td>{{ paymentId }}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td>Mã phản hồi VnPay</td>
             <td>{{ vnPayResponseCode }}</td>
+          </tr> -->
+          <tr>
+            <td>Trạng thái thanh toán</td>
+            <td>Thành công</td>
           </tr>
         </tbody>
       </table>
-      <p class="text-muted text-center">Thông tin đặt tour của bạn sẽ được gửi qua email bạn đã cung cấp .</p>
+      <h6>Thông tin đặt tour của bạn sẽ được gửi qua email bạn đã cung cấp .</h6>
     </div>
     <div v-else>
-      <h2 class="text-center">Thanh toán thất bại!</h2>
-      <p class="text-center">Vui lòng kiểm tra lại thông tin và thử lại.</p>
-      <p class="text-center">Mã phản hồi VnPay: {{ vnPayResponseCode }}</p>
+      <h2 class="text-center text-danger">Đặt tour thất bại!</h2>
+      <p class="text-center ">Vui lòng kiểm tra lại thông tin và thử lại.</p>
+      <!-- <p class="text-center">Mã phản hồi VnPay: {{ vnPayResponseCode }}</p> -->
     </div>
   </div>
 

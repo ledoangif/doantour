@@ -9,11 +9,11 @@
                         </div>
                         <div class="footer-text">
                             <p>Địa điểm : 66 ngách 6/46 Miêu Nha, Tây Mỗ, Nam Từ Liêm, Hà Nội</p>
-                            <p>Phone : +84238790987</p>
+                            <p>Phone : +84962383838</p>
                             <p>
-                                Email :<a href="mailto:info@example.com">travel@example.com</a>
+                                Email :<a href="mailto:hachutraveltour@gmail.com">travel@example.com</a>
                             </p>
-                            <p>Fax : +84238790987</p>
+                            <p>Fax : +84962383838</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 footer-grid_section mt-sm-0 mt-4">
@@ -99,20 +99,19 @@
                 </div>
             </div>
         </section>
-    </footer>
-    <div class="copyright py-3 text-center">
+        <div class="copyright py-3 text-center">
         <p>
             © 2024 Hachu Travel. All Rights Reserved | Design by
             <a href="http://w3layouts.com/" target="=_blank"> Doan </a>
         </p>
     </div>
-    <!-- //copyright -->
-    <!-- move top -->
     <div class="move-top text-right">
         <a href="#home" class="move-top">
             <span class="fa fa-angle-up mb-3" aria-hidden="true"></span>
         </a>
     </div>
+    </footer>
+
 </template>
 <script setup>
 import API from '../../service/Base/api';
@@ -135,7 +134,7 @@ const selectCountry = (id) => {
 
 const sendEmail = async () => {
     const subject = 'Ý kiến người dùng ';
-    window.location.href = `mailto:vychu8717@gmail.com?subject=${subject}`;
+    window.location.href = `mailto:hachutraveltour@gmail.com?subject=${subject}`;
 };
 </script>
 <style scoped>
@@ -146,6 +145,40 @@ const sendEmail = async () => {
 @import '../../assets/vendor/mdi-font/css/material-design-iconic-font.min.css';
 @import '../../assets/vendor/font-awesome-4.7/css/font-awesome.min.css';
 @import '../../assets/vendor/select2/select2.min.css';
+
+@media (max-width: 768px) {
+    .footer {
+        background-color: #333; /* Nền đen */
+        color: #fff;
+        padding-top: 20px;
+        padding-bottom: 850px; /* Tăng padding để kéo dài nền */
+    }
+
+    .footer-text, .footer-title h3 {
+        font-size: 1em; /* Điều chỉnh kích thước chữ để phù hợp với màn hình nhỏ */
+    }
+
+    /* Căn giữa và sắp xếp lại các phần trong footer cho dễ nhìn */
+    .footer-top {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-grid_section_1its_w3, .footer-grid_section {
+        text-align: center;
+        margin-bottom: 15px; /* Tạo khoảng cách giữa các phần */
+    }
+
+    .social_section_1info {
+        display: flex;
+        justify-content: center;
+    }
+
+    .social_section_1info li {
+        margin: 0 5px;
+    }
+}
 
 
 </style>

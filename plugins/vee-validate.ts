@@ -61,6 +61,7 @@ export default defineNuxtPlugin(() => {
         }
         return true;
     });
+
     // defineRule('MustPositive', (value: string) => {
     //     const number = parseFloat(value);
     //     if (isNaN(number) && value != null && number <=0  ) {
