@@ -6,6 +6,7 @@ using Doantour.Repository;
 using Doantour.Respository;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace Doantour.Service
 {
@@ -59,8 +60,6 @@ namespace Doantour.Service
 
             return File(result, contentType, fileName);
         }
-
-
         public async Task<PageResult<Customer>> GetAllPagination(Pagination? pagination)
         {
             var entities = await _CustomerRepository.ToListAsync();
@@ -85,9 +84,33 @@ namespace Doantour.Service
 
             return CustomerDto;
         }
-
         public async Task<CustomerDTO> InsertAsync(CustomerDTO obj)
         {
+            // Kiểm tra rỗng
+            if (string.IsNullOrWhiteSpace(obj.NameCustomer)
+                ||string.IsNullOrWhiteSpace(obj.PhoneNumber)
+                || string.IsNullOrWhiteSpace(obj.Address)
+                || string.IsNullOrWhiteSpace(obj.Email))
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống");
+            }
+            if (!Regex.IsMatch(obj.NameCustomer ?? "", @"^[A-Za-zÀ-ỹ\s]+$"))
+            {
+                throw new BadHttpRequestException("Họ tên chỉ được chứa ký tự chữ cái.");
+            }
+
+            // Số điện thoại phải đúng định dạng
+            if (!Regex.IsMatch(obj.PhoneNumber ?? "", @"^((03|05|07|08|09|01[2|6|8|9])\d{8}|\+84\d{9})$"))
+            {
+                throw new BadHttpRequestException("Số điện thoại không đúng.");
+            }
+
+            // Kiểm tra nếu email bị thiếu hoặc không hợp lệ
+            if (!Regex.IsMatch(obj.Email ?? "", @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                throw new BadHttpRequestException("Vui lòng nhập một email hợp lệ.");
+            }
+
             var existingCustomer = await _CustomerRepository.SelectAsync(r => r.Email == obj.Email || r.PhoneNumber == obj.PhoneNumber);
             if (existingCustomer)
             {
@@ -103,11 +126,33 @@ namespace Doantour.Service
 
             return obj;
         }
-
-
-
         public async Task<CustomerDTO> UpdateAsync(int id, CustomerDTO obj)
         {
+            // Kiểm tra rỗng
+            if (string.IsNullOrWhiteSpace(obj.NameCustomer)
+                || string.IsNullOrWhiteSpace(obj.PhoneNumber)
+                || string.IsNullOrWhiteSpace(obj.Address)
+                || string.IsNullOrWhiteSpace(obj.Email))
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống");
+            }
+            if (!Regex.IsMatch(obj.NameCustomer ?? "", @"^[A-Za-zÀ-ỹ\s]+$"))
+            {
+                throw new BadHttpRequestException("Họ tên chỉ được chứa ký tự chữ cái.");
+            }
+
+            // Số điện thoại phải đúng định dạng
+            if (!Regex.IsMatch(obj.PhoneNumber ?? "", @"^((03|05|07|08|09|01[2|6|8|9])\d{8}|\+84\d{9})$"))
+            {
+                throw new BadHttpRequestException("Số điện thoại không đúng.");
+            }
+
+            // Kiểm tra nếu email bị thiếu hoặc không hợp lệ
+            if (!Regex.IsMatch(obj.Email ?? "", @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                throw new BadHttpRequestException("Vui lòng nhập một email hợp lệ.");
+            }
+
             if (_CustomerRepository == null) throw new InvalidOperationException("Customer repository is not initialized.");
             if (_mapper == null) throw new InvalidOperationException("Mapper is not initialized.");
 
@@ -128,9 +173,6 @@ namespace Doantour.Service
             await _CustomerRepository.UpdateAsync(existingEntity);
             return obj;
         }
-
-
-
         public async Task<CustomerDTO> DeleteAsync(int id)
         {
             var existingEntity = await _CustomerRepository.FindAsync(id);

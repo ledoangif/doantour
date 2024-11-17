@@ -61,6 +61,26 @@ namespace Doantour.Service
 
         public async Task<HotelDTO> InsertAsync(HotelDTO obj)
         {
+            // Kiểm tra các trường không được để trống
+            if (string.IsNullOrWhiteSpace(obj.HotelName)
+                || string.IsNullOrWhiteSpace(obj.Address)
+                || string.IsNullOrWhiteSpace(obj.Hotline)
+                || string.IsNullOrWhiteSpace(obj.CEO)
+                || string.IsNullOrWhiteSpace(obj.LinkHotel))
+
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống.");
+            }
+            if (obj.Rate <= 0) 
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống.");
+            }
+            // Kiểm tra xem Rate có hợp lệ không (ví dụ: Rate phải từ 1 đến 5)
+            if (obj.Rate < 1 || obj.Rate > 5)
+            {
+                throw new BadHttpRequestException("Số phải nằm trong khoảng từ 1 đến 5.");
+            }
+
             var existingHotelName = await _HotelRepository.SelectAsync(r => r.HotelName == obj.HotelName);
             if (existingHotelName)
             {
@@ -75,6 +95,25 @@ namespace Doantour.Service
 
         public async Task<HotelDTO> UpdateAsync(int id, HotelDTO obj)
         {
+            // Kiểm tra các trường không được để trống
+            if (string.IsNullOrWhiteSpace(obj.HotelName)
+                || string.IsNullOrWhiteSpace(obj.Address)
+                || string.IsNullOrWhiteSpace(obj.Hotline)
+                || string.IsNullOrWhiteSpace(obj.CEO)
+                || string.IsNullOrWhiteSpace(obj.LinkHotel))
+
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống.");
+            }
+            if (obj.Rate <= 0)
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống.");
+            }
+            // Kiểm tra xem Rate có hợp lệ không (ví dụ: Rate phải từ 1 đến 5)
+            if (obj.Rate < 1 || obj.Rate > 5)
+            {
+                throw new BadHttpRequestException("Số phải nằm trong khoảng từ 1 đến 5.");
+            }
             var existingEntity = await _HotelRepository.FindAsync(id);
             if (existingEntity == null)
             {

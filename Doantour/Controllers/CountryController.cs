@@ -30,7 +30,12 @@ namespace Doantour.Controllers
         [HttpPost("InsertCountry")]
         public async Task<ActionResult<ResponseFormat>> Insert([FromForm] CountryDTO dto)
         {
-            //viết lại 1 hàm inhert trong service của nó 
+            if (string.IsNullOrWhiteSpace(dto.CountryName) ||
+                string.IsNullOrWhiteSpace(dto.CountryImage) ||
+                string.IsNullOrWhiteSpace(dto.ContinentName))
+            {
+                return BadRequest("Thông tin này không được để trống");
+            }
             var insertResult = await _service.InsertAsync(dto);
             return new ResponseFormat(HttpStatusCode.OK, "Thêm thành công", insertResult);
         }
@@ -49,11 +54,6 @@ namespace Doantour.Controllers
         [HttpPost("UploadFile")]
         public async Task<IActionResult> UploadFile(IFormFile ImageFile)
         {
-            if (ImageFile == null || ImageFile.Length == 0)
-            {
-                return BadRequest("Invalid file.");
-            }
-
             return Ok(await countryService.UploadFile(ImageFile));
         }
 

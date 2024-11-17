@@ -7,6 +7,7 @@
         public const string Success = "Đã thanh toán";
         public const string Pending = "Chờ xử lý";
         public const string UnPaid = "Chưa thanh toán";
+        public const string Deposited = "Đã đặt cọc";
         public const string Cancel = "Hủy";
         public const string Cash = "Tiền mặt";
         public const string PaymentByCash = "Bạn vui lòng tới điểm giao dịch của HachuTravel gần nhất để thanh toán bằng tiền mặt.";

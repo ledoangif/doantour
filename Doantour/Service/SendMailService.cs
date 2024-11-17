@@ -70,7 +70,7 @@ public class SendMailService
             client.Timeout = 300000; //Thiết lập thời gian chờ cho các hoạt động của SmtpClient thành 300000 ms (tương đương với 5 phút).
         }
     }
-
+    //send mail
     public async Task SendBookingStatusEmailAsync(string to, string bookingStatus, int bookingId)
     {
         var subject = GetSubject.GetEmailSubjectForBookingStatus(bookingStatus);

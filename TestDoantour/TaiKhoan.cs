@@ -1,5 +1,6 @@
 ﻿using Doantour.Controllers;
 using Doantour.Repository;
+using Doantour.Request;
 using Doantour.Service;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,10 +29,17 @@ namespace TestDoantour
 
         [Test]
         [TestCase("", "Test123456")]
+        [TestCase("test02@gmail.com", "")]
         [TestCase("test02@gmail.com", "Test123456")]
+        [TestCase("doanhaile2002721@gmail.com", "Test123456")]
         public async Task Login(string email, string password)
         {
-            var result = await _accountService.Login(email,password);
+            var loginModel = new AccountLogin
+            {
+                Email = email,
+                Password = password
+            };
+            var result = await _accountService.Login(loginModel);
 
             Assert.True(result.Status,result.Message);
         }
