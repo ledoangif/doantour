@@ -84,7 +84,7 @@ namespace Doantour.Service
 
             int totalTicketsToDecrease = booking.Adult + booking.Child;
             var tour = await _TourRepository.SearchAsync(x => x.Id == booking.TourId);
-
+            //Check số lượng vé còn lại : Return :Vé hiện không đủ để đặt
             if (tour[0].slot < totalTicketsToDecrease)
             {
                 return null;
@@ -125,9 +125,7 @@ namespace Doantour.Service
             {
                 throw new BadHttpRequestException("Entity not found.");
             }
-
-            // Cập nhật trạng thái thành "Chưa thanh toán"
-            existingEntity.StatusBill = "Chưa thanh toán";
+            existingEntity.StatusBill = "Đã đặt cọc";
             existingEntity.UpdateDate = DateTime.Now;
 
             // Cập nhật lại trong cơ sở dữ liệu
@@ -156,8 +154,6 @@ namespace Doantour.Service
             {
                 throw new BadHttpRequestException("Entity not found.");
             }
-
-
             existingEntity.IsDeleted = true;
             existingEntity.UpdateDate = DateTime.Now;
             var item = await _BookingRepository.UpdateAsync(existingEntity);

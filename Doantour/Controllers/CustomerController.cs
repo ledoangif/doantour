@@ -33,12 +33,22 @@ namespace Doantour.Controllers
             var list = await _service.ToListAsync();
             return await customerService.ExcelExport(list);
         }
+        //[HttpPost("Insert")]
+        //public async Task<ResponseFormat> InsertCustomer([FromForm] CustomerDTO dto)
+        //{
+        //    await _service.InsertAsync(dto);
+        //    return new ResponseFormat(HttpStatusCode.OK, "Insert Success", dto);
+
+        //}
         [HttpPost("Insert")]
         public async Task<ResponseFormat> InsertCustomer([FromForm] CustomerDTO dto)
         {
-            await _service.InsertAsync(dto);
-            return new ResponseFormat(HttpStatusCode.OK, "Insert Success", dto);
 
+            // Tiến hành gọi service để insert dữ liệu vào cơ sở dữ liệu nếu không có trường rỗng
+            await _service.InsertAsync(dto);
+
+            // Trả về phản hồi thành công nếu dữ liệu hợp lệ
+            return new ResponseFormat(HttpStatusCode.OK, "Insert Success", dto);
         }
     }
 }

@@ -161,6 +161,18 @@ namespace Doantour.Service
         }
         public async Task<TourDTO> InsertAsync(TourDTO dto)
         {
+            // Check if all required fields are filled
+            if (string.IsNullOrEmpty(dto.NameTour) ||
+                !dto.DateStart.HasValue ||
+                !dto.DateEnd.HasValue ||
+                dto.Cost == 0 ||
+                dto.Seat == 0 ||
+                string.IsNullOrEmpty(dto.Place) ||
+                string.IsNullOrEmpty(dto.MeetingPoint) 
+                )
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống");
+            }
             decimal priceSale = 0;
             int numOfDay = 0;
             int slot = 0;

@@ -13,7 +13,7 @@ namespace Doantour.Helpers.ContentEmail
             string formattedPaymentTime = tourDetails.PaymentTime.ToString("dd/MM/yyyy HH:mm:ss");
             string formattedPaymentTimePlusOneDay = tourDetails.PaymentTime.AddDays(1).ToString("dd/MM/yyyy HH:mm");
             string formattedPaymentTimePlusTwoHours = tourDetails.PaymentTime.AddHours(2).ToString("dd/MM/yyyy HH:mm");
-            //string paymentInstructions = tourDetails.PaymentBy == Constants.Cash ? Constants.PaymentByCash : Constants.PaymentBybank;
+            string paymentInstructions = tourDetails.PaymentBy == Constants.Cash ? Constants.PaymentByCash : Constants.PaymentBybank;
             switch (bookingStatus)
             {
                 case Constants.Success:
@@ -22,7 +22,6 @@ namespace Doantour.Helpers.ContentEmail
                 <body style='font-family: Arial, sans-serif; color: #333;'>
                  <div>
                    <table cellpadding=""0"" cellspacing=""0"" width=""760"" border=""0"" style=""font-family: Arial, sans-serif;"">
-                  
                    <tr>
             <td colspan=""2"">
                 <div style=""text-align:center;font-weight:bold;text-transform:uppercase;color:#000;font-size:24px;padding-top:20px;padding-bottom:20px;border-bottom:1px dotted #ccc;border-top:1px dotted #ccc;margin-bottom:30px"">Booking của quý khách</div>
@@ -57,7 +56,7 @@ namespace Doantour.Helpers.ContentEmail
                     <div style=""clear:both""></div>
                 </div>
                 <div style=""line-height:22px;text-align:justify;margin-bottom:25px"">
-                    <strong>Ghi chú:</strong> Tour không hoàn, không đổi, hủy mất 100%. Liên hệ tổng đài tư vấn: 1900 1818 từ 08:00 - 21:00.
+                    <strong>Ghi chú:</strong> Tour không hoàn phí đặt cọc, quý khách vui lòng đọc kĩ lưu ý khi hủy chuyến của chúng tôi.
                 </div>
             </td>
         </tr>
@@ -304,7 +303,7 @@ namespace Doantour.Helpers.ContentEmail
                     <div style=""clear:both""></div>
                 </div>
                 <div style=""line-height:22px;text-align:justify;margin-bottom:25px"">
-                    <strong>Ghi chú:</strong> Tour không hoàn, không đổi, hủy mất 100%. Liên hệ tổng đài tư vấn: 1900 1818 từ 08:00 - 21:00.
+                    <strong>Ghi chú:</strong> Tour không hoàn phí đặt cọc, quý khách vui lòng đọc kĩ lưu ý khi hủy chuyến của chúng tôi.
                 </div>
             </td>
         </tr>

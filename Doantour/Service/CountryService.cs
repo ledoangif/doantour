@@ -84,23 +84,43 @@ namespace Doantour.Service
 
             return CountryDto;
         }
-
         public async Task<CountryDTO> InsertAsync(CountryDTO obj)
         {
+            // Kiểm tra các trường bắt buộc
+            if (string.IsNullOrWhiteSpace(obj.CountryName) ||
+                string.IsNullOrWhiteSpace(obj.CountryImage) ||
+                string.IsNullOrWhiteSpace(obj.ContinentName))
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống");
+            }
+
+            // Kiểm tra trùng lặp
             var existingCountryName = await _CountryRepository.SelectAsync(r => r.CountryName == obj.CountryName && r.IsDeleted == false);
             if (existingCountryName)
             {
                 return null;
             }
+
+            // Gán giá trị mặc định
             obj.CreateDate = DateTime.Now;
             obj.UpdateDate = DateTime.Now;
+
+            // Map DTO thành entity và thêm vào cơ sở dữ liệu
             var objMap = _mapper.Map<Country>(obj);
             await _CountryRepository.InsertAsync(objMap);
+
             return obj;
         }
 
         public async Task<CountryDTO> UpdateAsync(int id, CountryDTO obj)
         {
+            // Kiểm tra rỗng các trường bắt buộc
+            if (string.IsNullOrWhiteSpace(obj.CountryName) ||
+                string.IsNullOrWhiteSpace(obj.CountryImage) ||
+                string.IsNullOrWhiteSpace(obj.ContinentName))
+            {
+                throw new BadHttpRequestException("Thông tin này không được để trống.");
+            }
             var existingEntity = await _CountryRepository.FindAsync(id);
             if (existingEntity == null)
             {
@@ -117,21 +137,14 @@ namespace Doantour.Service
             await _CountryRepository.UpdateAsync(existingEntity);
             return obj;
         }
-
-
         public async Task<CountryDTO> DeleteAsync(int id)
         {
+            // Kiểm tra xem entity có tồn tại hay không
             var existingEntity = await _CountryRepository.FindAsync(id);
             if (existingEntity == null)
             {
-                throw new BadHttpRequestException("Entity not found.");
+                throw new BadHttpRequestException("Id không tồn tại.");
             }
-
-            if (existingEntity == null)
-            {
-                return null;
-            }
-
             existingEntity.IsDeleted = true;
             existingEntity.UpdateDate = DateTime.Now;
             var item = await _CountryRepository.UpdateAsync(existingEntity);
@@ -139,6 +152,20 @@ namespace Doantour.Service
         }
         public async Task<string> UploadFile([FromForm] IFormFile ImageFile)
         {
+            //// Kiểm tra file có rỗng hay không
+            //if (ImageFile == null || ImageFile.Length == 0)
+            //{
+            //    throw new BadHttpRequestException("Thông tin này không được để trống.");
+            //}
+
+            // Kiểm tra định dạng file (chỉ chấp nhận jpg và png)
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var fileExtension = Path.GetExtension(ImageFile.FileName).ToLower();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                throw new BadHttpRequestException("Chỉ chấp nhận các định dạng ảnh JPG, PNG");
+            }
             string url = await Upload.Upfile(ImageFile);
             return url;
         }
