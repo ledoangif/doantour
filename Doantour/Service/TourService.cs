@@ -159,10 +159,6 @@ namespace Doantour.Service
             pagination.TotalCount = entities.Count();
             return new PageResult<Tour>(pagination, result);
         }
-
-
-
-
         public async Task<TourDTO> InsertAsync(TourDTO dto)
         {
             decimal priceSale = 0;

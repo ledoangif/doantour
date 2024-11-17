@@ -24,7 +24,6 @@
         public string? ServiceInclude { get; set; }
         public string? ServiceNotInclude { get; set; }
         public string? MeetingPoint { get; set; }
-
         public int? CountryId { get; set; }
         public string? AppUserId { get; set; }
     }

@@ -46,14 +46,14 @@ namespace Doantour.Controllers
         {
             var result = await _service.UpdateAsync(id, obj);
 
-            return new ResponseFormat(HttpStatusCode.Accepted, "Update Success!", result);
+            return new ResponseFormat(HttpStatusCode.Accepted, "Cập nhật thành công!", result);
         }
 
         [HttpDelete("{id}")]
         public virtual async Task<ResponseFormat> DeleteAsync(int id)
         {
             var result = await _service.DeleteAsync(id);
-            return new ResponseFormat(HttpStatusCode.NoContent, "Delete Success!", result);
+            return new ResponseFormat(HttpStatusCode.NoContent, "Xóa thành công!", result);
         }
 
 

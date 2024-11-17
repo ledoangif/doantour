@@ -34,6 +34,7 @@ namespace Doantour.Service
 
         public async Task<IdentityResult> Register(RegisterModel account)
         {
+
             var user = new AppUser()
             {
                 FullName = account.Fullname,

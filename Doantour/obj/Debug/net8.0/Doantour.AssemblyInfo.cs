@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Doantour")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa2a24bc93e7cef47cdb3638d8a5b015f237b1fd")]
 [assembly: System.Reflection.AssemblyProductAttribute("Doantour")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Doantour")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

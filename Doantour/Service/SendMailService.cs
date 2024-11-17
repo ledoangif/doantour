@@ -11,10 +11,8 @@ public class SendMailService
 {
     private readonly string _smtpServer = "smtp.gmail.com";
     private readonly int _smtpPort = 587;
-    //private readonly string _smtpUser = "vychu8717@gmail.com";
-    //private readonly string _smtpPass = "aqfy rrjl mzll ksoh";
-    private readonly string _smtpUser = "100via2a6789@gmail.com";
-    private readonly string _smtpPass = "iofd yfqv ldcg bhnl";
+    private readonly string _smtpUser = "hachutraveltour@gmail.com";
+    private readonly string _smtpPass = "dqkn wpfj wnsy fchl";
     private readonly IMapper _mapper;
     private readonly IServiceProvider _serviceProvider;
     private readonly BookingRepository _bookingRepository;

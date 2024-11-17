@@ -1,4 +1,4 @@
-﻿namespace Doantour.Models
+﻿namespace Doantour.Request
 {
     public class RegisterModel
     {

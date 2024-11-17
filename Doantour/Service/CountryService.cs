@@ -87,7 +87,7 @@ namespace Doantour.Service
 
         public async Task<CountryDTO> InsertAsync(CountryDTO obj)
         {
-            var existingCountryName = await _CountryRepository.SelectAsync(r => r.CountryName == obj.CountryName);
+            var existingCountryName = await _CountryRepository.SelectAsync(r => r.CountryName == obj.CountryName && r.IsDeleted == false);
             if (existingCountryName)
             {
                 return null;

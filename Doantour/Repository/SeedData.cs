@@ -72,35 +72,40 @@ namespace Doantour.Repository
                 if (!context.Country.Any())
                 {
                     var item = new List<Country>()
-                    {
+                    {   new Country  {
+                        CountryName = "Việt Nam",
+                        ContinentName = "Châu Á",
+                        CountryImage = "https://res.cloudinary.com/dyjeuo2dv/image/upload/v1731462149/Image_638670841412616081.jpg",
+                        },
+
                         new Country  {
                         CountryName = "Trung Quốc",
                         ContinentName = "Châu Á",
-                        CountryImage = "https://res.cloudinary.com/dnfnp1vdp/image/upload/v1717400544/Image_638530225351124638.jpg",
+                        CountryImage = "https://res.cloudinary.com/dyjeuo2dv/image/upload/v1731462370/Image_638670843581015306.png",
                         },
                         new Country
                         {
                         CountryName = "Thái Lan ",
                         ContinentName = "Châu Á",
-                        CountryImage = "https://res.cloudinary.com/dnfnp1vdp/image/upload/v1717400742/Image_638530227418427651.jpg",
+                        CountryImage = "https://res.cloudinary.com/dyjeuo2dv/image/upload/v1731462505/Image_638670844928426926.jpg",
                         },
                         new Country
                         {
                          CountryName = "Hàn Quốc ",
                          ContinentName = "Châu Á",
-                         CountryImage = "https://res.cloudinary.com/dnfnp1vdp/image/upload/v1717400991/Image_638530229899793780.jpg",
+                         CountryImage = "https://res.cloudinary.com/dyjeuo2dv/image/upload/v1731462749/Image_638670847212665164.png",
                         },
                         new Country
                         {
                          CountryName = "Nhật Bản ",
                          ContinentName = "Châu Á",
-                         CountryImage = "https://res.cloudinary.com/dnfnp1vdp/image/upload/v1717401093/Image_638530230922899625.jpg",
+                         CountryImage = "https://res.cloudinary.com/dyjeuo2dv/image/upload/v1731462884/Image_638670848668319956.jpg",
                         },
                          new Country
                         {
                          CountryName = "Nga",
                          ContinentName = "Châu Âu",
-                         CountryImage = "https://res.cloudinary.com/dnfnp1vdp/image/upload/v1717401151/Image_638530231495983574.jpg",
+                         CountryImage = "https://res.cloudinary.com/dyjeuo2dv/image/upload/v1731463026/Image_638670850142768030.jpg",
                         },
                     };
                     await context.Country.AddRangeAsync(item);

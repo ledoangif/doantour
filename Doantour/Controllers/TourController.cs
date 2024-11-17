@@ -111,7 +111,7 @@ namespace Doantour.Controllers
         public async Task<ResponseFormat> InsertTour([FromForm] TourDTO dto)
         {
             await _tourService.InsertAsync(dto);
-            return new ResponseFormat(HttpStatusCode.OK, "Insert Success", dto);
+            return new ResponseFormat(HttpStatusCode.OK, "Thêm thành công", dto);
 
         }
         [HttpGet("GetTourIsLocal")]
@@ -150,7 +150,7 @@ namespace Doantour.Controllers
         public async Task<ResponseFormat> UpdateIsFinishTour(List<TourDTO> tour)
         {
             var item = await _tourService.UpdateIsFinishTour(tour);
-            return new ResponseFormat(HttpStatusCode.OK, "Update Success", null);
+            return new ResponseFormat(HttpStatusCode.OK, "Cập nhật thành công", null);
         }
         [HttpGet("Top6TourNewUpdate")]
         public async Task<ActionResult<ResponseFormat>> Top6Tour()

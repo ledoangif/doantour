@@ -5,7 +5,7 @@ namespace Doantour.Helpers
 {
     public class Upload
     {
-        static public Account account = new Account("dnfnp1vdp", "651395863673797", "1f9u7M6yUZUemqVvLqT0sM6bvP4");
+        static public Account account = new Account("dyjeuo2dv", "159276139847775", "dcGIEi7hJWieISP-77Z-EiJ5Fno");
         static public Cloudinary _cloudinary = new Cloudinary(account);
         public static async Task<string> Upfile(IFormFile file)
         {

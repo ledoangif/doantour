@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Doantour.Migrations
 {
     [DbContext(typeof(Hachutravelcontext))]
-    [Migration("20241030084030_dbinit1")]
-    partial class dbinit1
+    [Migration("20241113043436_Dbinit")]
+    partial class Dbinit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

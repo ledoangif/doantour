@@ -116,40 +116,25 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "accountId",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "oldPassword",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "newPassword",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "changePassword",
+        "Type": "Doantour.Request.AccountChangePassword",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "Doantour.Controllers.AccountController",
-    "Method": "PutPassWord",
-    "RelativePath": "api/Account/editPassword/{id}",
+    "Method": "editPassword",
+    "RelativePath": "api/Account/editPassword",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
-        "Type": "System.String",
+        "Name": "editPassword",
+        "Type": "Doantour.Request.AccounteditPassword",
         "IsRequired": true
-      },
-      {
-        "Name": "password",
-        "Type": "System.String",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -225,14 +210,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "password",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "loginModel",
+        "Type": "Doantour.Request.AccountLogin",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -277,7 +257,7 @@
     "Parameters": [
       {
         "Name": "account",
-        "Type": "Doantour.Models.RegisterModel",
+        "Type": "Doantour.Request.RegisterModel",
         "IsRequired": true
       }
     ],
@@ -920,6 +900,48 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Doantour.Controllers.BookingReportController",
+    "Method": "GetDailyBookingReport",
+    "RelativePath": "api/BookingReport/daily-booking-report",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Doantour.Controllers.BookingReportController",
+    "Method": "GetMonthlyBookingReport",
+    "RelativePath": "api/BookingReport/monthly-booking-report",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "startDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "endDate",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Doantour.Controllers.BaseControllerGeneric\u00602[[Doantour.Models.Country, Doantour, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Doantour.DTO.CountryDTO, Doantour, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
     "Method": "GetAll",
     "RelativePath": "api/Country",
@@ -1179,6 +1201,32 @@
     "ContainingType": "Doantour.Controllers.CountryController",
     "Method": "SearchAll",
     "RelativePath": "api/Country/search/{name}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Doantour.Models.ResponseFormat",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Doantour.Controllers.CountryController",
+    "Method": "SearchCountryNameAdmin",
+    "RelativePath": "api/Country/SearchCountryNameAdmin/{name}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

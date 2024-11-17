@@ -9,7 +9,7 @@
         public const string UnPaid = "Chưa thanh toán";
         public const string Cancel = "Hủy";
         public const string Cash = "Tiền mặt";
-        public const string PaymentByCash = "Bạn vui lòng tới điểm giao dịch của MinTravel gần nhất để thanh toán bằng tiền mặt.";
+        public const string PaymentByCash = "Bạn vui lòng tới điểm giao dịch của HachuTravel gần nhất để thanh toán bằng tiền mặt.";
         public const string PaymentBybank = "Bạn chuyển khoản với số tài khoản : Số Tài khoản : 909 890 987 097 Ngân hàng : Vietinbank.<br>Nội dung : ThanhToanDonDat_SoBooking<br>Ví dụ : ThanhToanDonDat_65";
 
     }

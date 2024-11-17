@@ -183,3 +183,4 @@ D:\Code\Doantour\Doantour\bin\Debug\net8.0\VNPayPackage.dll
 D:\Code\Doantour\Doantour\bin\Debug\net8.0\SmartFormat.dll
 D:\Code\Doantour\Doantour\bin\Debug\net8.0\SmartFormat.Extensions.Newtonsoft.Json.dll
 D:\Code\Doantour\Doantour\bin\Debug\net8.0\ZString.dll
+D:\Code\Doantour\Doantour\obj\Debug\net8.0\Doantour.sourcelink.json

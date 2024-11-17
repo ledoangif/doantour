@@ -13,7 +13,7 @@ namespace Doantour.Helpers.ContentEmail
             string formattedPaymentTime = tourDetails.PaymentTime.ToString("dd/MM/yyyy HH:mm:ss");
             string formattedPaymentTimePlusOneDay = tourDetails.PaymentTime.AddDays(1).ToString("dd/MM/yyyy HH:mm");
             string formattedPaymentTimePlusTwoHours = tourDetails.PaymentTime.AddHours(2).ToString("dd/MM/yyyy HH:mm");
-            string paymentInstructions = tourDetails.PaymentBy == Constants.Cash ? Constants.PaymentByCash : Constants.PaymentBybank;
+            //string paymentInstructions = tourDetails.PaymentBy == Constants.Cash ? Constants.PaymentByCash : Constants.PaymentBybank;
             switch (bookingStatus)
             {
                 case Constants.Success:
@@ -57,7 +57,7 @@ namespace Doantour.Helpers.ContentEmail
                     <div style=""clear:both""></div>
                 </div>
                 <div style=""line-height:22px;text-align:justify;margin-bottom:25px"">
-                    <strong>Ghi chú:</strong> Tour không hoàn, không đổi, hủy mất 100%. Liên hệ tổng đài tư vấn: 1900 1839 từ 08:00 - 21:00.
+                    <strong>Ghi chú:</strong> Tour không hoàn, không đổi, hủy mất 100%. Liên hệ tổng đài tư vấn: 1900 1818 từ 08:00 - 21:00.
                 </div>
             </td>
         </tr>
@@ -134,9 +134,9 @@ namespace Doantour.Helpers.ContentEmail
                 <table width=""100%"">
                     <tr>
                         <td style=""padding:5px 0;"">
-                            Quý khách có thắc mắc cần hỗ trợ, vui lòng liên hệ bộ phận hỗ trợ khách hàng của MinTravel:<br>
-                            Điện thoại: <strong>1900 1839</strong><br>
-                            Email: <strong>support@MinTravel.com</strong>
+                            Quý khách có thắc mắc cần hỗ trợ, vui lòng liên hệ bộ phận hỗ trợ khách hàng của Hachu Travel:<br>
+                            Điện thoại: <strong>1900 1818</strong><br>
+                            Email: <strong>support@hachutrveltour.com</strong>
                         </td>
                     </tr>
                 </table>
@@ -173,20 +173,20 @@ namespace Doantour.Helpers.ContentEmail
                 </p>
                 <p class=""MsoNormal"" style=""text-align:justify"">&nbsp;<u></u><u></u></p>
                 <p class=""MsoNormal"" style=""text-align:justify"">
-                    Thay mặt <b>MinTravel</b>, kính gửi đến&nbsp;Quý khách lời chúc sức khỏe và lời&nbsp;cảm ơn chân thành vì đã quan tâm, tin tưởng sử dụng dịch vụ của chúng tôi. <u></u><u></u>
+                    Thay mặt <b>HachuTravel</b>, kính gửi đến&nbsp;Quý khách lời chúc sức khỏe và lời&nbsp;cảm ơn chân thành vì đã quan tâm, tin tưởng sử dụng dịch vụ của chúng tôi. <u></u><u></u>
                 </p>
                 <p class=""MsoNormal"" style=""text-align:justify"">&nbsp;<u></u><u></u></p>
                 <p class=""MsoNormal"" style=""text-align:justify"">
-                    <i>MinTravel có liên hệ với số điện thoại đã đăng ký giữ chỗ nhưng đều bị từ chối cuộc gọi. Vì lý do booking cần xác nhận dịch vụ nhưng không nhận được phản hồi từ quý khách nên hệ thống đã tự động hủy booking.<u></u><u></u></i>
+                    <i>HachuTravel có liên hệ với số điện thoại đã đăng ký giữ chỗ nhưng đều bị từ chối cuộc gọi. Vì lý do booking cần xác nhận dịch vụ nhưng không nhận được phản hồi từ quý khách nên hệ thống đã tự động hủy booking.<u></u><u></u></i>
                 </p>
                 <p class=""MsoNormal"" style=""text-align:justify""><i><u></u>&nbsp;<u></u></i></p>
                 <p class=""MsoNormal"" style=""text-align:justify"">
                     Nếu gia đình mình còn kế hoạch tham gia tour, vui lòng đặt tour lại trên website
                     <span style=""font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif"">
-                        <a href=""http://www.travel.com.vn/"" target=""_blank"" data-saferedirecturl=""https://www.google.com/url?q=http://www.travel.com.vn/&amp;source=gmail&amp;ust=1716732861117000&amp;usg=AOvVaw2zznsdPUMTLLGeCCaWCUol"">
+                        <a href=""http://www.hachutravel.com.vn"" >
                             <span style=""font-size:12.0pt;font-family:&quot;Times New Roman&quot;,serif"">www.travel.com.vn</span>
                         </a>
-                    </span> hoặc liên hệ Tổng đài 1900 1839 để đặt tour.<u></u><u></u>
+                    </span> hoặc liên hệ Tổng đài 1900 1818 để đặt tour.<u></u><u></u>
                 </p>
                 <p class=""MsoNormal"" style=""text-align:justify"">&nbsp;<u></u><u></u></p>
                 <p class=""MsoNormal"">
@@ -242,7 +242,7 @@ namespace Doantour.Helpers.ContentEmail
                     </tbody>
                 </table>
                 <p class=""MsoNormal"" style=""text-align:justify"">&nbsp;<a name=""m_435424650249380749_OLE_LINK58""></a>&nbsp;<u></u><u></u></p>
-                <p class=""MsoNormal"" style=""text-align:justify"">Cần thêm thông tin quý khách vui lòng liên hệ Tổng đài MinTravel 1900 1839 để được hỗ trợ<u></u><u></u></p>
+                <p class=""MsoNormal"" style=""text-align:justify"">Cần thêm thông tin quý khách vui lòng liên hệ Tổng đài HachuTravel 1900 1818 để được hỗ trợ<u></u><u></u></p>
                 <p class=""MsoNormal"" style=""text-align:justify"">&nbsp;<u></u><u></u></p>
                 <p class=""MsoNormal"" style=""text-align:justify"">Trân trọng,<span style=""color:black""><u></u><u></u></span></p>
             </td>
@@ -304,7 +304,7 @@ namespace Doantour.Helpers.ContentEmail
                     <div style=""clear:both""></div>
                 </div>
                 <div style=""line-height:22px;text-align:justify;margin-bottom:25px"">
-                    <strong>Ghi chú:</strong> Tour không hoàn, không đổi, hủy mất 100%. Liên hệ tổng đài tư vấn: 1900 1839 từ 08:00 - 21:00.
+                    <strong>Ghi chú:</strong> Tour không hoàn, không đổi, hủy mất 100%. Liên hệ tổng đài tư vấn: 1900 1818 từ 08:00 - 21:00.
                 </div>
             </td>
         </tr>
@@ -341,19 +341,19 @@ namespace Doantour.Helpers.ContentEmail
                         <td class=""m_4931299018104403581td-left"" style=""padding:5px 0;"">Thời hạn thanh toán:</td>
                         <td class=""m_4931299018104403581td-right"" style=""padding:5px 0;"">
                        {paymentDeadline} (Theo giờ Việt Nam)<br>
-                            <span style=""font-style:italic"">Nếu quá thời hạn trên mà quý khách chưa thanh toán, MinTravel sẽ hủy booking này.</span>
+                            <span style=""font-style:italic"">Nếu quá thời hạn trên mà quý khách chưa thanh toán, HachuTravel sẽ hủy booking này.</span>
                         </td>
                     </tr>
                     <tr>
                         <td class=""m_4931299018104403581td-left"" style=""padding:5px 0;"">Tình trạng:</td>
                         <td class=""m_4931299018104403581td-right"" style=""padding:5px 0; color:#c50000;font-weight:bold;"">
-                            Booking đang đợi MinTravel xác nhận
+                            Booking đang đợi HachuTravel xác nhận
                         </td>
                     </tr>
                     <tr>
                         <td class=""m_4931299018104403581td-left"" style=""padding:5px 0;"">Hướng dẫn thanh toán:</td>
                         <td class=""m_4931299018104403581td-right"" style=""padding:5px 0; color:#c50000;font-weight:bold;"">
-                           {paymentInstructions}
+                  
                         </td>
                     </tr>
                 </table>
@@ -405,9 +405,9 @@ namespace Doantour.Helpers.ContentEmail
                 <table width=""100%"">
                     <tr>
                         <td style=""padding:5px 0;"">
-                            Quý khách có thắc mắc cần hỗ trợ, vui lòng liên hệ bộ phận hỗ trợ khách hàng của MinTravel:<br>
-                            Điện thoại: <strong>1900 1839</strong><br>
-                            Email: <strong>support@MinTravel.com</strong>
+                            Quý khách có thắc mắc cần hỗ trợ, vui lòng liên hệ bộ phận hỗ trợ khách hàng của HaChu Travel:<br>
+                            Điện thoại: <strong>1900 1818</strong><br>
+                            Email: <strong>support@HaChuTravel.com</strong>
                         </td>
                     </tr>
                 </table>

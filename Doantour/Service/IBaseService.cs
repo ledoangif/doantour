@@ -5,6 +5,7 @@ namespace Doantour.Service
 {
     public interface IBaseService<TEntity, TDto>
     {
+
         Task<List<TDto>> ToListAsync();
         Task<List<TDto>> SearchAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TDto> FindAsync(int id);

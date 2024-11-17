@@ -20,11 +20,19 @@ namespace Doantour.Controllers
             var entities = await _service.SearchAsync(x => x.CountryName.Contains(name));
             return new ResponseFormat(HttpStatusCode.OK, "Get List", entities);
         }
+
+        [HttpGet("SearchCountryNameAdmin/{name}")]
+        public async Task<ActionResult<ResponseFormat>> SearchCountryNameAdmin(string name)
+        {
+            var entities = await _service.SearchAsync(x => x.CountryName.Contains(name) && x.IsDeleted == false);
+            return new ResponseFormat(HttpStatusCode.OK, "Get List", entities);
+        }
         [HttpPost("InsertCountry")]
         public async Task<ActionResult<ResponseFormat>> Insert([FromForm] CountryDTO dto)
         {
+            //viết lại 1 hàm inhert trong service của nó 
             var insertResult = await _service.InsertAsync(dto);
-            return new ResponseFormat(HttpStatusCode.OK, "Insert Success", insertResult);
+            return new ResponseFormat(HttpStatusCode.OK, "Thêm thành công", insertResult);
         }
         [HttpGet("Top4Country")]
         public async Task<ActionResult<ResponseFormat>> Top4Country()

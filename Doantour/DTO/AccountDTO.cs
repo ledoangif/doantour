@@ -1,4 +1,6 @@
-﻿namespace Doantour.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Doantour.DTO
 {
     public class AccountDTO
     {
