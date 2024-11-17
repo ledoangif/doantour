@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Doantour.DTO;
 using Doantour.Controllers;
 using Doantour.ServiceUnit;
+using Doantour.Service;
 
 namespace TestDoantour
 {
@@ -22,15 +23,17 @@ namespace TestDoantour
         private Hachutravelcontext _context;
         private FakeSignInManager _signInManagerMock;
         private AccountService _accountService;
+        private CountryService _countryService;
 
         [SetUp]
+
         public void Setup()
         {
             var options = new DbContextOptionsBuilder<Hachutravelcontext>()
-                 .UseSqlServer("Data Source=(local)\\SQLSV2019EXP;User ID=sa;Password=SqlSv2019;Initial Catalog=AppTest.Test;Integrated Security=True;Trust Server Certificate=True")
+                 .UseSqlServer("Data Source=(local)\\SQLSV2019EXP;User ID=sa;Password=SqlSv2019;Initial Catalog=Hachutour;Integrated Security=True;Trust Server Certificate=True")
                  .Options;
             _context = new Hachutravelcontext(options);
-            // Sử dụng FakeUserManager
+            //repo
 
             var fakeUserManager = new FakeUserManager();
 
@@ -41,8 +44,9 @@ namespace TestDoantour
 
             _signInManagerMock = new FakeSignInManager(fakeUserManager, httpContextMock.Object);
 
-            // Khởi tạo các service
+            //
             _accountService = new AccountService(_context, fakeUserManager, _signInManagerMock);
+            _countryService = new CountryService(_context);
 
         }
 
