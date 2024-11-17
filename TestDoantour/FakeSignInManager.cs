@@ -31,8 +31,21 @@ namespace TestDoantour
 
         public override Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure)
         {
-            // Giả lập kết quả đăng nhập thành công
-            return Task.FromResult(SignInResult.Success);
+            // Giả lập danh sách người dùng và mật khẩu
+            var users = new Dictionary<string, string>
+            {
+                { "test01@gmail.com", "Password01" },
+                { "test02@gmail.com", "Password02" },
+                { "test03@gmail.com", "Password03" }
+            };
+
+            // Kiểm tra xem thông tin đăng nhập có đúng không
+            if (users.ContainsKey(userName) && users[userName] == password)
+            {
+                return Task.FromResult(SignInResult.Success);
+            }
+
+            return Task.FromResult(SignInResult.Failed);
         }
 
         public override Task SignOutAsync()

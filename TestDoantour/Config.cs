@@ -20,40 +20,29 @@ namespace TestDoantour
     public partial class Tests
     {
         private Hachutravelcontext _context;
-        private Mock<UserManager<AppUser>> _userManagerMock;
         private FakeSignInManager _signInManagerMock;
         private AccountService _accountService;
 
         [SetUp]
-
         public void Setup()
         {
             var options = new DbContextOptionsBuilder<Hachutravelcontext>()
                  .UseSqlServer("Data Source=(local)\\SQLSV2019EXP;User ID=sa;Password=SqlSv2019;Initial Catalog=AppTest.Test;Integrated Security=True;Trust Server Certificate=True")
                  .Options;
             _context = new Hachutravelcontext(options);
-            //repo
+            // Sử dụng FakeUserManager
 
-            _userManagerMock = new Mock<UserManager<AppUser>>(
-                new Mock<IUserStore<AppUser>>().Object,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
+            var fakeUserManager = new FakeUserManager();
 
             // Sử dụng FakeSignInManager
             var httpContextMock = new Mock<IHttpContextAccessor>();
             var httpContext = new DefaultHttpContext(); // Tạo một HttpContext giả lập
             httpContextMock.Setup(x => x.HttpContext).Returns(httpContext);
 
-            _signInManagerMock = new FakeSignInManager(_userManagerMock.Object, httpContextMock.Object);
+            _signInManagerMock = new FakeSignInManager(fakeUserManager, httpContextMock.Object);
 
-            //
-            _accountService = new AccountService(_context,_userManagerMock.Object,_signInManagerMock);
+            // Khởi tạo các service
+            _accountService = new AccountService(_context, fakeUserManager, _signInManagerMock);
 
         }
 
