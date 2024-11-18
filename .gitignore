@@ -4,3 +4,5 @@
 *.suo
 *.vssscc
 *.vspscc
+Doantour/appsettings.json
+TestDoantour/Config.cs
