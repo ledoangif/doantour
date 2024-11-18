@@ -17,6 +17,6 @@ namespace Doantour.DTO
         public string? StatusBill { get; set; }
         public string? customerInTours { get; set; }
 
-
+        //
     }
 }
