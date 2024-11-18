@@ -13,6 +13,8 @@ namespace Doantour.Helpers.ContentEmail
             string formattedPaymentTime = tourDetails.PaymentTime.ToString("dd/MM/yyyy HH:mm:ss");
             string formattedPaymentTimePlusOneDay = tourDetails.PaymentTime.AddDays(1).ToString("dd/MM/yyyy HH:mm");
             string formattedPaymentTimePlusTwoHours = tourDetails.PaymentTime.AddHours(2).ToString("dd/MM/yyyy HH:mm");
+            decimal remainingAmount = tourDetails.PriceSale - 100000; // Trừ 100,000 VND từ trị giá booking
+            string formattedRemainingAmount = remainingAmount.ToString("#,##0") + " VND";
             string paymentInstructions = tourDetails.PaymentBy == Constants.Cash ? Constants.PaymentByCash : Constants.PaymentBybank;
             switch (bookingStatus)
             {
@@ -261,7 +263,8 @@ namespace Doantour.Helpers.ContentEmail
 
                 </body>
                 </html>";
-                case Constants.UnPaid:
+
+                case Constants.Deposited:
                     string paymentDeadline = tourDetails.PaymentBy == Constants.Cash ? formattedPaymentTimePlusOneDay : formattedPaymentTimePlusTwoHours;
                     return $@"
                  <html>
@@ -331,9 +334,9 @@ namespace Doantour.Helpers.ContentEmail
                         </td>
                     </tr>
                     <tr>
-                        <td class=""m_4931299018104403581td-left"" style=""padding:5px 0;"">Hình thức thanh toán:</td>
+                        <td class=""m_4931299018104403581td-left"" style=""padding:5px 0;"">Số tiền cần phải thanh toán:</td>
                         <td class=""m_4931299018104403581td-right"" style=""padding:5px 0;"">
-                            <span>{tourDetails.PaymentBy}</span>
+                            <span style=""font-weight:bold;color:#c50000"">{formattedRemainingAmount}</span>
                         </td>
                     </tr>
                     <tr>
@@ -343,18 +346,34 @@ namespace Doantour.Helpers.ContentEmail
                             <span style=""font-style:italic"">Nếu quá thời hạn trên mà quý khách chưa thanh toán, HachuTravel sẽ hủy booking này.</span>
                         </td>
                     </tr>
-                    <tr>
-                        <td class=""m_4931299018104403581td-left"" style=""padding:5px 0;"">Tình trạng:</td>
-                        <td class=""m_4931299018104403581td-right"" style=""padding:5px 0; color:#c50000;font-weight:bold;"">
-                            Booking đang đợi HachuTravel xác nhận
+                    <tr> 
+                        <td class=""m_4931299018104403581td-left"" style=""padding: 5px 0;"">
+                            Tình trạng:
+                        </td>
+                        <td class=""m_4931299018104403581td-right"" style=""padding: 5px 0; color: #c50000; font-weight: bold;"">
+                            Đặt cọc thành công
                         </td>
                     </tr>
+                        <tr>
+                        <td></td>
+                        <td class=""m_4931299018104403581td-right"" style=""padding: 5px 0; color: #000000;"">
+                            <span style=""font-style: italic; font-weight: normal;"">
+                                Quý khách vui lòng thanh toán số tiền còn lại để chuyển sang bước tiếp theo.
+                            </span>
+                        </td>
+                     </tr>
                     <tr>
-                        <td class=""m_4931299018104403581td-left"" style=""padding:5px 0;"">Hướng dẫn thanh toán:</td>
-                        <td class=""m_4931299018104403581td-right"" style=""padding:5px 0; color:#c50000;font-weight:bold;"">
-                  
+                        <td class=""m_4931299018104403581td-left"" style=""padding: 5px 0; white-space: nowrap;"">
+                            Hướng dẫn thanh toán:
+                        </td>
+                        <td class=""m_4931299018104403581td-right"" style=""padding: 5px 0; color: #000000; font-weight: normal;"">
+                            Quý khách vui lòng chuyển khoản qua số tài khoản: 
+                            <span style=""font-weight: bold; color: #c50000;"">12345678999</span> Vietcombank Công ty TNHH Hachutravel, 
+                            với nội dung: <span style=""font-style: italic;"">Thanhtoantour_bookingId</span> 
+                            (<i>bookingId</i> là số booking của quý khách).
                         </td>
                     </tr>
+
                 </table>
             </td>
         </tr>
@@ -414,9 +433,119 @@ namespace Doantour.Helpers.ContentEmail
         </tr>
     </table>
 </div>
-
+                <h3 style=""color: #c50000; font-weight: bold;"">VI. Lưu ý hủy chuyến</h3>
+                <p style=""margin-bottom: 10px;"">
+                    Sau khi hoàn tất thanh toán, nếu Quý khách muốn hủy hoặc chuyển tour, vui lòng liên hệ trực tiếp qua điện thoại hoặc email để yêu cầu hủy tour. Hachutravel sẽ hỗ trợ Quý khách xử lý thủ tục hủy tour và áp dụng phí hủy theo quy định.
+                </p>
+                <ul style=""margin-bottom: 10px; padding-left: 20px; list-style-type: disc;"">
+                    <li>Hủy tour sau khi đặt cọc: <b style=""color: #c50000;"">mất 100% tiền cọc</b></li>
+                    <li>
+                        Hủy tour khi đã thanh toán 100% tổng giá trị tour sẽ tính phí theo thời điểm thông báo hủy (<i>Không tính ngày lễ và chủ nhật</i>) như sau:
+                        <ul style=""margin-top: 5px; padding-left: 20px; list-style-type: circle;"">
+                            <li>Sau khi đặt tour, hủy tour: <b>mất 10% tổng giá trị tour</b></li>
+                            <li>Từ 11 đến 15 ngày trước ngày khởi hành: <b>chịu phí 30% tổng giá trị tour</b></li>
+                            <li>Từ 6 đến 10 ngày trước ngày khởi hành: <b>chịu phí 50% tổng giá trị tour</b></li>
+                            <li>Từ 2 đến 5 ngày trước ngày khởi hành: <b>chịu phí 70% tổng giá trị tour</b></li>
+                            <li>Từ 1 ngày trước ngày khởi hành: <b style=""color: #c50000;"">chịu phí 100% tổng giá trị tour</b></li>
+                        </ul>
+                    </li>
+                </ul>
                 </body>
                 </html>";
+                case Constants.Customercancel:
+
+                    return $@"
+    <html>
+        <head>
+            <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />
+            <style>
+                body {{
+                    font-family: Arial, sans-serif;
+                    color: #333;
+                    background-color: #f9f9f9;
+                    padding: 20px;
+                    margin: 0;
+                    width: 100%;
+                }}
+                table {{
+                    width: 100%;
+                    padding: 15px;
+                    border-collapse: collapse;
+                }}
+                td {{
+                    font-size: 14px;
+                    line-height: 1.6;
+                    padding: 10px;
+                }}
+                .header {{
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #c50000;
+                    text-align: center;
+                    padding-bottom: 20px;
+                }}
+                .content {{
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    padding: 20px;
+                    border-radius: 5px;
+                }}
+                .content p {{
+                    font-size: 16px;
+                    color: #333;
+                }}
+                .important {{
+                    color: #e74c3c;
+                    font-weight: bold;
+                }}
+                .contact-info {{
+                    font-size: 16px;
+                    padding-top: 20px;
+                }}
+                a {{
+                    color: #c50000;
+                    text-decoration: none;
+                }}
+            </style>
+        </head>
+        <body>
+            <table>
+                <tr>
+                    <td class=""header"">
+                        Thông Báo Hủy Tour
+                    </td>
+                </tr>
+                <tr>
+                    <td class=""content"">
+                        <p style=""font-size: 16px; font-weight: bold;"">
+                            Kính gửi Quý khách,
+                        </p>
+                        <p>
+                            Chúng tôi rất tiếc khi nhận được yêu cầu hủy tour của Quý khách.
+                            <br><br>
+                            <span class=""important"">Hủy tour của Quý khách đã được thực hiện thành công.</span>
+                            <br><br>
+                            Chúng tôi rất tiếc về sự bất tiện này và hy vọng sẽ có cơ hội được phục vụ Quý khách trong những chuyến đi sau.
+                            <br><br>
+                            Nếu Quý khách có bất kỳ câu hỏi nào liên quan đến thủ tục hủy tour hoặc cần hỗ trợ thêm, vui lòng liên hệ với chúng tôi qua điện thoại hoặc email dưới đây.
+                        </p>
+                        <p style=""font-size: 16px; font-weight: bold;"">
+                            Xin cảm ơn Quý khách đã lựa chọn dịch vụ của Hachutravel.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class=""contact-info"">
+                        <b>Thông tin liên hệ:</b><br>
+                        <b>Hachutravel</b><br>
+                        <i>Email:</i> <a href=""mailto:support@hachutravel.com"">support@hachutravel.com</a><br>
+                        <i>Hotline:</i> <a href=""tel:19001234"">1900-1234</a>
+                    </td>
+                </tr>
+            </table>
+        </body>
+    </html>";
+
                 default:
                     return $@"
                 <html>
@@ -425,6 +554,7 @@ namespace Doantour.Helpers.ContentEmail
                     <p>Your booking status has been updated. Please check your booking details for more information.</p>
                 </body>
                 </html>";
+
             }
         }
     }

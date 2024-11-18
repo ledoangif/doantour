@@ -174,18 +174,18 @@ namespace Doantour.Service
             var results = await _BookingRepository.CountBookingCancelorNotCancel(status);
             return results;
         }
-        public async Task<List<BookingDTO>> getTourPaying()
-        {
-            var yesterday = DateTime.Today.AddDays(-1);
+        //public async Task<List<BookingDTO>> getTourPaying()
+        //{
+        //    var yesterday = DateTime.Today.AddDays(-1);
 
-            var result = await _BookingRepository.SearchAsync(
-                x => x.StatusBill == Constants.UnPaid
-                     && x.IsDeleted == false
+        //    var result = await _BookingRepository.SearchAsync(
+        //        x => x.StatusBill == Constants.UnPaid
+        //             && x.IsDeleted == false
 
-            );
-            var item = _mapper.Map<List<BookingDTO>>(result);
-            return item;
-        }
+        //    );
+        //    var item = _mapper.Map<List<BookingDTO>>(result);
+        //    return item;
+        //}
         public async Task<TourDTO> resetSlotAfterCancel(int child, int adult, int tourId)
         {
 

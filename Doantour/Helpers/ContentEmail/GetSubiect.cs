@@ -1,4 +1,6 @@
-﻿namespace Doantour.Helpers.ContentEmail
+﻿using System.Reflection.Metadata;
+
+namespace Doantour.Helpers.ContentEmail
 {
     public class GetSubject
     {
@@ -9,7 +11,7 @@
                 Constants.Success => "Thông tin đặt tour trên HachuTravel.",
                 Constants.Cancel => "Booking bị hủy do không nhận được phản hồi!",
                 Constants.Pending => "Tour đang xử lý!",
-                Constants.UnPaid => "Tour chờ thanh toán!",
+                Constants.Customercancel => "Booking hủy theo yêu cầu của quý khách",
                 Constants.Deposited=> "Đặt cọc thành công"
             };
         }
