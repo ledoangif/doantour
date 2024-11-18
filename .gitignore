@@ -6,3 +6,5 @@
 *.vspscc
 Doantour/appsettings.json
 TestDoantour/Config.cs
+/Doantour/appsettings.json
+/TestDoantour/Config.cs
