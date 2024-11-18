@@ -92,7 +92,7 @@ namespace Doantour.ServiceUnit
                     Message = "Thông tin này không được để trống!"
                 };
             }
-            Expression<Func<Tour, bool>> predicate = a => a.TourName == name;
+            Expression<Func<Tour, bool>> predicate = a => a.NameTour == name;
             var searchResult = await _context.Tour.Where(predicate).ToListAsync();
 
             if (!searchResult.Any())

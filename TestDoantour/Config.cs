@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Doantour.DTO;
 using Doantour.Controllers;
 using Doantour.ServiceUnit;
-using Doantour.Service;
 
 namespace TestDoantour
 {
