@@ -5,40 +5,40 @@ using System.Linq.Expressions;
 
 namespace Doantour.ServiceUnit
 {
-    public class CountryService
+    public class TourService
     {
         private readonly Hachutravelcontext _context;
 
-        public CountryService(Hachutravelcontext hachutravelcontext)
+        public TourService(Hachutravelcontext hachutravelcontext)
         {
             _context = hachutravelcontext;
         }
 
-        public async Task<ResponseModel> InsertAsync(Country obj)
+        public async Task<ResponseModel> InsertAsync(Tour obj)
         {
-            var existingCountryName = await _context.Country.AnyAsync(r => r.CountryName == obj.CountryName && r.IsDeleted == false);
-            if (existingCountryName)
+            var existingTourName = await _context.Tour.AnyAsync(r => r.NameTour == obj.NameTour && r.IsDeleted == false);
+            if (existingTourName)
             {
                 return new ResponseModel
                 {
                     Status = false,
-                    Message = "Thêm quốc gia thất bại!"
+                    Message = "Thêm thất bại!"
                 };
             }
             obj.CreateDate = DateTime.Now;
             obj.UpdateDate = DateTime.Now;
-            await _context.Country.AddAsync(obj);
+            await _context.Tour.AddAsync(obj);
             await _context.SaveChangesAsync();
             return new ResponseModel
             {
                 Status = false,
-                Message = "Thêm quốc gia thành công!"
+                Message = "Thêm thành công!"
             };
         }
 
-        public async Task<ResponseModel> UpdateAsync(int id, Country obj)
+        public async Task<ResponseModel> UpdateAsync(int id, Tour obj)
         {
-            var existingEntity = await _context.Country.FindAsync(id);
+            var existingEntity = await _context.Tour.FindAsync(id);
             if (existingEntity == null)
             {
                 return new ResponseModel
@@ -49,7 +49,7 @@ namespace Doantour.ServiceUnit
             }
 
             obj.UpdateDate = DateTime.Now;
-            _context.Country.Update(existingEntity);
+            _context.Tour.Update(existingEntity);
             await _context.SaveChangesAsync();
             return new ResponseModel
             {
@@ -61,7 +61,7 @@ namespace Doantour.ServiceUnit
 
         public async Task<ResponseModel> DeleteAsync(int id)
         {
-            var existingEntity = await _context.Country.FindAsync(id);
+            var existingEntity = await _context.Tour.FindAsync(id);
             if (existingEntity == null)
             {
                 return new ResponseModel
@@ -73,7 +73,7 @@ namespace Doantour.ServiceUnit
 
             existingEntity.IsDeleted = true;
             existingEntity.UpdateDate = DateTime.Now;
-            var item = _context.Country.Update(existingEntity);
+            var item = _context.Tour.Update(existingEntity);
             await _context.SaveChangesAsync();
             return new ResponseModel
             {
@@ -92,8 +92,8 @@ namespace Doantour.ServiceUnit
                     Message = "Thông tin này không được để trống!"
                 };
             }
-            Expression<Func<Country, bool>> predicate = a => a.CountryName == name;
-            var searchResult = await _context.Country.Where(predicate).ToListAsync();
+            Expression<Func<Tour, bool>> predicate = a => a.TourName == name;
+            var searchResult = await _context.Tour.Where(predicate).ToListAsync();
 
             if (!searchResult.Any())
             {
