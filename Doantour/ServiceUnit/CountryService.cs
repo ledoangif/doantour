@@ -22,7 +22,7 @@ namespace Doantour.ServiceUnit
                 return new ResponseModel
                 {
                     Status = false,
-                    Message = "Thêm quốc gia thất bại!"
+                    Message = "Quốc gia đã tồn tại!"
                 };
             }
             obj.CreateDate = DateTime.Now;
@@ -31,7 +31,7 @@ namespace Doantour.ServiceUnit
             await _context.SaveChangesAsync();
             return new ResponseModel
             {
-                Status = false,
+                Status = true,
                 Message = "Thêm quốc gia thành công!"
             };
         }
@@ -68,6 +68,15 @@ namespace Doantour.ServiceUnit
                 {
                     Status = false,
                     Message = "Thông tin không tồn tại!"
+                };
+            }   
+            
+            if (existingEntity.IsDeleted == true)
+            {
+                return new ResponseModel
+                {
+                    Status = false,
+                    Message = "Thông tin đã bị xoá!"
                 };
             }
 

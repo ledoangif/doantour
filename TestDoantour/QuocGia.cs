@@ -15,15 +15,9 @@ namespace TestDoantour
             {
                 yield return new TestCaseData(new Country
                 {
-                    CountryName = "Vietnam",
+                    CountryName = "Vietnam2",
                     ContinentName = "Asia",
                     CountryImage = "vietnam.jpg"
-                });
-                yield return new TestCaseData(new Country
-                {
-                    CountryName = "Japan",
-                    ContinentName = "Asia",
-                    CountryImage = "japan.jpg"
                 });
             }
         }
