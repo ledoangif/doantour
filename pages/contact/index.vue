@@ -1,5 +1,8 @@
 <template>
-    <HeaderDetail />
+    <HeaderHome />
+    <section class="banner_inner" id="home">
+        <div class="banner_inner_overlay"></div>
+    </section>
     <section class="packages">
         <div class="container py-lg-4">
             <div class="row" id="displayTours">
@@ -64,3 +67,12 @@ definePageMeta({
     layout: false,
 });
 </script>
+<style scoped>
+@import '../../assets/css/bootstrap.css';
+@import '../../assets/css/style.css';
+@import '../../assets/css/font-awesome.min.css';
+@import '../../assets/css/css_slider.css';
+@import '../../assets/vendor/mdi-font/css/material-design-iconic-font.min.css';
+@import '../../assets/vendor/font-awesome-4.7/css/font-awesome.min.css';
+@import '../../assets/vendor/select2/select2.min.css';
+</style>

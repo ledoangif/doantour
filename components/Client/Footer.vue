@@ -11,7 +11,7 @@
                             <p>Địa điểm : 66 ngách 6/46 Miêu Nha, Tây Mỗ, Nam Từ Liêm, Hà Nội</p>
                             <p>Phone : +84962383838</p>
                             <p>
-                                Email :<a href="mailto:hachutraveltour@gmail.com">travel@example.com</a>
+                                Email :<a href="mailto:hachutraveltour@gmail.com">hachutravel@gmail.com</a>
                             </p>
                             <p>Fax : +84962383838</p>
                         </div>

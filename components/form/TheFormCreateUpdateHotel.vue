@@ -1,6 +1,5 @@
 <template>
-    <Form @submit="handleSubmit">
-        <CVModal id_model="create-update-Hotel-modal">
+        <CVModal id_model="create-update-Hotel-modal" @close-modal="resetForm">
             <template #icon>
                 <slot name="icon"></slot>
             </template>
@@ -13,7 +12,8 @@
                 </span>
             </template>
             <template #body>
-                <div class="row">
+                <Form ref="formRef" @submit="handleSubmit">
+                    <div class="row">
                     <div class="row col-lg-8 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
                             <label
@@ -179,38 +179,20 @@
                         </svg>
                         Thêm
                     </button>
-                    <button
-                        type="reset"
-                        class="btn btn-sm btn-outline-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 -70 700 700"
-                            class="icon"
-                            width="10px"
-                            height="10px"
-                        >
-                            <path
-                                fill="#006eff"
-                                d="m257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3"
-                            />
-                        </svg>
-                        Huỷ bỏ
-                    </button>
                 </div>
+                </Form>
             </template>
         </CVModal>
-    </Form>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue';
 import Api from '~/service/Base/api.ts';
 import { Form, Field,ErrorMessage } from 'vee-validate';
+import { errorMessages } from 'vue/compiler-sfc';
 const api = new Api();
 const emits = defineEmits(['Hotel-saved']);
-
+const formRef = ref(null);
 /** received data */
 const props = defineProps({
     editHotel: {
@@ -225,18 +207,6 @@ const props = defineProps({
     },
 });
 
-const formRef = ref(null);
-const selectedfile = ref(null);
-/** reset form */
-const resetForm = () => {
-    if (formRef.value) {
-        formRef.value.resetForm();
-    }
-};
-
-/**
- * define Hotel
- */
 const Hotel = ref({
     hotelName: '',
     linkHotel: '',
@@ -245,15 +215,18 @@ const Hotel = ref({
     ceo: '',
     hotline: '',
 });
-
-/** validate */
-
-/**
- * insert Hotel
- */
+const resetForm = () => {
+  // Reset the form fields
+  Hotel.value = {
+    hotelName: '',
+    linkHotel: '',
+    rate: '',
+    address: '',
+    ceo: '',
+    hotline: '',
+  };
+};
 const createHotel = () => {
- 
-
     const formData = new FormData();
     formData.append('hotelName', Hotel.value.hotelName);
     formData.append('linkHotel', Hotel.value.linkHotel);
@@ -269,12 +242,9 @@ const createHotel = () => {
         .catch((error) => {
             console.error('Error creating Hotel:', error);
         });
-    resetForm();
 };
 
-/** update Hotel */
 const updateHotel = () => {
-   
     const data = {
         hotelName: Hotel.value.hotelName,
         linkHotel: Hotel.value.linkHotel,
@@ -284,7 +254,6 @@ const updateHotel = () => {
         hotline: Hotel.value.hotline,
         id: props.editHotel.id,
     };
-
     api.putAPI(`/Hotel/${props.editHotel.id}`, data)
         .then((res) => {
             emits('Hotel-saved');
@@ -293,12 +262,8 @@ const updateHotel = () => {
         .catch((error) => {
             console.error('Error updating Hotel:', error);
         });
-    resetForm();
 };
 
-/**
- * handle submit
- */
 const handleSubmit = () => {
     if (props.isEditMode) {
         updateHotel();
@@ -307,9 +272,6 @@ const handleSubmit = () => {
     }
 };
 
-/**
- * update data of edit Hotel
- */
 watch(
     () => props.editHotel,
     (newVal) => {

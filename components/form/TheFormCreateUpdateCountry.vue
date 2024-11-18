@@ -1,5 +1,5 @@
 <template>
-    <CVModal id_model="create-update-Country-modal">
+    <CVModal id_model="create-update-Country-modal" @close-modal="resetForm">
         <template #icon>
             <slot name="icon"></slot>
         </template>
@@ -12,7 +12,7 @@
             </span>
         </template>
         <template #body>
-            <Form @submit="handleSubmit">
+            <Form @submit="handleSubmit" ref="form">
                 <div class="row">
                     <div class="row col-lg-4 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
@@ -104,13 +104,6 @@
                     >
                         Thêm
                     </button>
-                    <button
-                        type="reset"
-                        class="btn btn-sm btn-outline-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
-                    >
-                        Huỷ bỏ
-                    </button>
                 </div>
             </Form>
         </template>
@@ -121,6 +114,8 @@
 import { ref, watch } from 'vue';
 import Api from '~/service/Base/api.ts';
 import { Form, Field, ErrorMessage } from 'vee-validate';
+import { useToast } from 'vue-toast-notification';
+const toast = useToast();
 const api = new Api();
 const emits = defineEmits(['Country-saved']);
 
@@ -161,36 +156,49 @@ const Continent = [
 ];
 
 const handlefiles = async (event) => {
-    const input = event.target;
-    const file = input.files?.[0];
+    const files = event.target.files;
+    const file = files[0];
 
-    // Kiểm tra định dạng ảnh
-    const allowedFormats = ['jpg', 'jpeg', 'png'];
-    const fileExtension = file?.name.split('.').pop()?.toLowerCase();
-
-    if (!fileExtension || !allowedFormats.includes(fileExtension)) {
-        alert('Chỉ chấp nhận các định dạng ảnh JPG, PNG');
+    // Kiểm tra xem có file nào được chọn không
+    if (!file) {
+        alert("Vui lòng chọn một file.");
         return;
     }
 
-    // Thực hiện upload ảnh
+    // Kiểm tra định dạng file (chỉ cho phép jpg hoặc png)
+    const validExtensions = ['image/jpeg', 'image/png']; // Định dạng file hợp lệ
+    if (!validExtensions.includes(file.type)) {
+        alert("Chỉ chấp nhận ảnh có định dạng JPG hoặc PNG.");
+        // Reset input file (Xóa file đã chọn)
+        event.target.value = '';
+        return;
+    }
+    // Kiểm tra kích thước file (không vượt quá 2MB)
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSize) {
+        alert("Kích thước file không được vượt quá 2MB.");
+        // Reset input file (Xóa file đã chọn)
+        event.target.value = '';
+        return;
+    }
+
+    // Nếu file hợp lệ, gửi file lên server
     const formData = new FormData();
     formData.append('ImageFile', file);
 
     try {
-        const response = await api.postAPI('/Country/UploadFile', formData);
-        Country.value.countryImage = response.data; // Lưu đường dẫn ảnh trả về vào Country
-        errorMessage.value = ''; // Reset thông báo lỗi
+        const response = await api.postAPI('/Country/UploadFile', formData); // Đường dẫn upload ảnh của quốc gia
+        if (response.data) {
+            Country.value.countryImage = response.data; // Lưu URL ảnh từ server
+            toast.success('Tải ảnh thành công!');
+            console.log("Ảnh đã được tải lên thành công:", response.data);
+        }
     } catch (error) {
-        console.error('Upload image failed:', error);
-        errorMessage.value = 'Lỗi khi tải lên hình ảnh. Vui lòng thử lại.';
-        //alert('Lỗi khi tải lên hình ảnh. Vui lòng thử lại.');
+        toast.error("Tải ảnh thất bại vui lòng tải lại")
+        //console.error("Có lỗi khi tải ảnh lên:", error);
+        //alert("Đã có lỗi xảy ra khi tải ảnh lên!");
     }
 };
-// const resetBodyOverflow = () => {
-//     document.body.style.overflow = 'auto';  // Đảm bảo body có thể cuộn
-// };
-
 const createCountry = async () => {
    // const startTime = performance.now(); // Lưu thời gian bắt đầu
     try {
@@ -198,28 +206,12 @@ const createCountry = async () => {
         formData.append('countryName', Country.value.countryName);
         formData.append('countryImage', Country.value.countryImage);
         formData.append('continentName', Country.value.continentName);
-
         // Gửi yêu cầu tạo quốc gia
         await api.postAPI('/Country/InsertCountry', formData);
-
         // Thông báo đã lưu thành công, đóng modal và reset form
         emits('Country-saved');
         $('#create-update-Country-modal').modal('hide');
-            // setTimeout(() => {
-            //     const modalBackdrop = document.querySelector('.modal-backdrop');
-            //     if (modalBackdrop) {
-            //         modalBackdrop.remove(); // Loại bỏ backdrop sau khi modal đóng
-            //     }
-            //     resetBodyOverflow(); // Đảm bảo body có thể cuộn lại
-            //     resetForm();
-            //     // Tạo lại backdrop và mở modal
-            //     const newBackdrop = document.createElement('div');
-            //     newBackdrop.classList.add('modal-backdrop', 'fade', 'show');
-            //     document.body.appendChild(newBackdrop); // Thêm lại backdrop thủ công
-            //     $('#create-update-Country-modal').modal('show'); // Mở modal
-            //     const endTime = performance.now(); // Lưu thời gian kết thúc bên trong setTimeout
-            //     console.log(`Thời gian chạy: ${(endTime - startTime).toFixed(2)}ms`); // Log thời gian chạy
-            // }, 600); // Đảm bảo backdrop bị xóa sau một khoảng thời gian ngắn
+        toast.success('Thêm thành công!');
     } catch (error) {
         console.error('Error creating Country:', error);
     }
@@ -237,6 +229,7 @@ const updateCountry = async () => {
         await api.putAPI(`/Country/${props.editCountry.id}`, data);
         emits('Country-saved');
         $('#create-update-Country-modal').modal('hide');
+        toast.success('Cập nhật thành công!');
     } catch (error) {
         console.error('Error updating Country:', error);
         errorMessage.value = "Đã xảy ra lỗi khi cập nhật quốc gia. Vui lòng thử lại.";

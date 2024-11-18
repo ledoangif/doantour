@@ -21,14 +21,14 @@
 </template>
 <script setup>
 import Api from '~/service/Base/api.ts';
-
+import { useToast } from 'vue-toast-notification';
+const toast = useToast();
 const props = defineProps({
     BookingId: {
         type: String,
         required: true,
     },
 });
-
 const api = new Api();
 const emits = defineEmits(['Booking-deleted', 'hide-modal']);
 const deleteBooking = () => {
@@ -38,6 +38,7 @@ const deleteBooking = () => {
             emits('Booking-deleted', id);
             emits('hide-modal');
             $('.btn-close').click();
+            toast.success('Xóa thành công')
         })
         .catch((error) => {
             console.error('Lỗi khi xóa đơn đặt:', error);

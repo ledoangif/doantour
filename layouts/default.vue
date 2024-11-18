@@ -90,7 +90,7 @@
         <div class="row border-top">
             <div class="col-lg-2 bg-white p-0" v-if="showSideBar">
                 <div class="position-relative sidebar" tabindex="-1">
-                    <NuxtLink
+                    <!-- <NuxtLink
                         to="/Dashboard"
                         class="py-3 d-flex flex-row ps-4 text-decoration-none nav-link"
                         v-if="role === 'Admin'"
@@ -108,7 +108,7 @@
                             <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
                         </svg>
                         <div class="my-0 ms-2">Dashboard</div>
-                    </NuxtLink>
+                    </NuxtLink> -->
                     <div class="sidebar">
                         <ul class="navbar-nav justify-content-end flex-grow-1">
                             <li class="nav-item ps-4">

@@ -158,11 +158,19 @@
                                 </button>
                                 <button
                                     v-else-if="
-                                        Booking.statusBill === Tour_constants.UnPaid
+                                        Booking.statusBill === Tour_constants.Customercancel
+                                    "
+                                    class="btn btn-danger btn-sm mt-2"
+                                >
+                                    Customercancel
+                                </button>
+                                <button
+                                    v-else-if="
+                                        Booking.statusBill === Tour_constants.Deposited
                                     "
                                     class="btn btn-warning btn-sm mt-2"
                                 >
-                                    Paying
+                                    Deposited
                                 </button>
                                 <button
                                     v-else-if="
@@ -331,7 +339,6 @@ const deleteBooking = async (id) => {
         console.log(err);
     }
 };
-
 /**
  * edit Booking
  * @param {*} Booking

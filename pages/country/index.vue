@@ -11,7 +11,7 @@
                                 class="form-control col-md-2"
                                 v-model="searchString"
                                 type="text"
-                                placeholder=" tên... "
+                                placeholder=" Tên quốc gia... "
                             />
                         </div>
                         <span class="button d-flex">

@@ -1,6 +1,8 @@
 <template>
     <Form @submit="handleSubmit">
-        <CVModal id_model="create-update-Booking-modal">
+        <CVModal id_model="create-update-Booking-modal"
+        @close-modal="resetForm"  <!-- Lắng nghe sự kiện đóng modal và gọi resetForm -->
+        >
             <template #icon>
                 <slot name="icon"></slot>
             </template>
@@ -251,7 +253,6 @@
                             <label
                                 for="source-name"
                                 class="col-sm-4 col-form-label control-label text-end"
-                              
                             >
                                 Đã thanh toán
                             </label>
@@ -347,19 +348,7 @@
                         v-if="isEditMode"
                         type="submit"
                         class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="0.88em"
-                            height="1em"
-                            viewBox="0 -70 700 700"
-                        >
-                            <path
-                                fill="#f7f7f7"
-                                d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64c0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A11.996 11.996 0 0 1 320 111.48"
-                            />
-                        </svg>
                         Lưu
                     </button>
                     <button
@@ -368,39 +357,8 @@
                         class="btn btn-sm btn-primary d-flex align-items-center"
                         data-bs-dismiss="modal"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="10px"
-                            height="10px"
-                            viewBox="0 -70 700 700"
-                        >
-                            <path
-                                fill="#f7f7f7"
-                                d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64c0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A11.996 11.996 0 0 1 320 111.48"
-                            />
-                        </svg>
                         Thêm
                     </button>
-                    <button
-                        type="reset"
-                        class="btn btn-sm btn-outline-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 -70 700 700"
-                            class="icon"
-                            width="10px"
-                            height="10px"
-                        >
-                            <path
-                                fill="#006eff"
-                                d="m257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3"
-                            />
-                        </svg>
-                        Huỷ bỏ
-                    </button>
-                    {{ meetingPoint }}
                 </div>
             </template>
         </CVModal>
@@ -412,6 +370,8 @@ import { ref, watch, onMounted } from 'vue';
 import Api from '~/service/Base/api.ts';
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import Tour_constants from '~/assets/js/constants/constants';
+import { useToast } from 'vue-toast-notification';
+const toast = useToast();
 const api = new Api();
 const formRef = ref(null);
 const emits = defineEmits(['Booking-saved']);
@@ -436,9 +396,10 @@ const props = defineProps({
  */
 const statusBill = [
     { id: 1, value: 'Đã thanh toán' },
-    { id: 2, value: 'Chưa thanh toán' },
+    { id: 2, value: 'Đã đặt cọc' },
     { id: 3, value: 'Hủy' },
     { id: 4, value: 'Chờ xử lý' },
+    { id: 5, value:'Khách hàng hủy'},
 ];
 
 /**
@@ -517,21 +478,28 @@ const updateBooking = async () => {
         {
            await api.putAPI(`/Customer/${props.editBooking.customerId}`,dataCustomer);
         }
-        await api.putAPI(`/Booking/${props.editBooking.id}`, data);
+        const booking=await api.putAPI(`/Booking/${props.editBooking.id}`, data);
+        if (booking.status === 200) {
+            if (booking.data && booking.data.message) {
+                // Hiển thị thông báo thành công
+                toast.success(booking.data.message);  // Hiển thị thông báo với toast (thành công)
+            }
+        }
         emits('Booking-saved');
-        $('#create-update-Booking-modal').modal('hide');
         const formData = new FormData();
         formData.append('to', Booking.value.email);
         formData.append('status', data.statusBill);
 
-        await api.postAPI(
-            `/Booking/TestSendMailByStatus?id=${props.editBooking.id}`,
-            formData,
-        );
+        const mail=await api.postAPI(`/Booking/TestSendMailByStatus?id=${props.editBooking.id}`,formData,);
+        if (mail.status === 200) {
+            if (mail.data && mail.data.message) {
+                // Hiển thị thông báo thành công
+                        toast.success(mail.data.message);  // Hiển thị thông báo với toast (thành công)
+            }
+        }
     } catch (error) {
         console.error('Error updating Booking:', error);
     }
-
     resetForm();
 };
 /**
@@ -552,7 +520,9 @@ const handleSubmit = () => {
    */
 const isDisabled=(status) => {
             return status === Tour_constants.Cancel ||
-                   status === Tour_constants.UnPaid ||
+                   //status === Tour_constants.UnPaid ||
+                   status===Tour_constants.Deposited||
+                   status===Tour_constants.Customercancel||
                    status === Tour_constants.Pending;
         }
 /**

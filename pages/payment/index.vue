@@ -80,7 +80,10 @@ definePageMeta({
 }
 </style> -->
 <template>
-  <HeaderDetail />
+      <HeaderHome />
+    <section class="banner_inner" id="home">
+        <div class="banner_inner_overlay"></div>
+    </section>
   <div class="fs-5 border-bottom py-4">
     <div class="container d-flex flex-row">
       <div style="color: #377df4" class="me-2">1.Nhập thông tin ></div>
@@ -167,6 +170,13 @@ definePageMeta({
 </script>
 
 <style scoped>
+@import '../../assets/css/bootstrap.css';
+@import '../../assets/css/style.css';
+@import '../../assets/css/font-awesome.min.css';
+@import '../../assets/css/css_slider.css';
+@import '../../assets/vendor/mdi-font/css/material-design-iconic-font.min.css';
+@import '../../assets/vendor/font-awesome-4.7/css/font-awesome.min.css';
+@import '../../assets/vendor/select2/select2.min.css';
 .payment-form {
   max-width: 500px;
   margin: auto;

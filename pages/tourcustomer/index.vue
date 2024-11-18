@@ -1,5 +1,5 @@
 <template>
-    <HeaderCustomer />
+    <HeaderHome />
     <section class="banner_inner" id="home">
         <div class="banner_inner_overlay"></div>
     </section>
@@ -258,7 +258,7 @@
                             <div
                                 class="d-flex flex-row justify-content-between mt-2 mt-2"
                             >
-                                <button
+                                <!-- <button
                                     type="button"
                                     class="btn btn-outline-primary"
                                     @click="
@@ -266,7 +266,7 @@
                                     "
                                 >
                                     Ngày khác
-                                </button>
+                                </button> -->
                                 <div class="pt-2">
                                     <span class="text-decoration-underline me-2">
                                         Số chỗ còn nhận :
@@ -459,21 +459,21 @@ const TourIsNotLocal = async () => {
  * Tour has different date
  */
 
-const GetTourDifferent = async (name, date) => {
-    try {
-        const res = await api.get(`Tour/GetTourDifferent?name=${name}&date=${date}`, null);
-        if (res.data.responseData.length === 0) {
-            alert("Tour này không còn ngày khác!");
-        }
-        else
-        {
-            Tour.value = res.data.responseData;
+// const GetTourDifferent = async (name, date) => {
+//     try {
+//         const res = await api.get(`Tour/GetTourDifferent?name=${name}&date=${date}`, null);
+//         if (res.data.responseData.length === 0) {
+//             alert("Tour này không còn ngày khác!");
+//         }
+//         else
+//         {
+//             Tour.value = res.data.responseData;
 
-        }
-    } catch (error) {
-        console.error("Error fetching tours:", error);
-    }
-};
+//         }
+//     } catch (error) {
+//         console.error("Error fetching tours:", error);
+//     }
+// };
 const nextPage = () => {
     pageNumber.value++;
     getTours();

@@ -1,7 +1,6 @@
 <template>
     <header>
         <div class="container text-white">
-            <!-- nav -->
             <nav class="py-md-4 py-3 justify-content-between">
                 <div id="logo">
                     <h1 class="mt-md-0 mt-2">
@@ -17,27 +16,19 @@
                     <input type="checkbox" id="drop" />
                     <ul class="">
                         <li class="fw-bold">
-                            <NuxtLink to="/"
-                                ><span class=" fw-bold"
-                                    >Trang chủ</span
-                                ></NuxtLink
-                            >
-                        </li>
-
-                        <li class="fw-bold">
-                            <NuxtLink to=""
-                                ><span class=" fw-bold">Tour</span></NuxtLink
-                            >
+                            <NuxtLink to="/"><span class=" fw-bold">Trang chủ</span>
+                            </NuxtLink>
                         </li>
                         <li class="fw-bold">
-                            <NuxtLink to=""
-                                ><span class=" fw-bold">Liên hệ </span></NuxtLink
+                            <NuxtLink to=""><span class=" fw-bold">Tour</span></NuxtLink>
+                        </li>
+                        <li class="fw-bold">
+                            <NuxtLink to=""><span class=" fw-bold">Liên hệ </span></NuxtLink
                             >
                         </li>
                     </ul>
                 </div>
             </nav>
-            <!-- //nav -->
         </div>
     </header>
 </template>

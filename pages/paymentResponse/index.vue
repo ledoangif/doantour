@@ -1,5 +1,8 @@
 <template>
-<HeaderDetail />
+    <HeaderHome />
+    <section class="banner_inner" id="home">
+        <div class="banner_inner_overlay"></div>
+    </section>
   <div class="fs-5 border-bottom py-4">
     <div class="container d-flex flex-row">
       <div class="me-2 text-primary">1. Nhập thông tin ></div>
@@ -33,9 +36,13 @@
             <td>{{ orderId }}</td>
           </tr>
           <tr>
+            <td>Số tiền đặt cọc</td>
+            <td>100.000 vnd</td>
+          </tr>
+          <!-- <tr>
             <td>Phương thức thanh toán</td>
             <td>{{ paymentMethod }}</td>
-          </tr>
+          </tr> -->
           <tr>
             <td>ID thanh toán</td>
             <td>{{ paymentId }}</td>
@@ -108,8 +115,14 @@ const updateBookingStatus = async (bookingId) => {
   }
 }
 </script>
-
 <style scoped>
+@import '../../assets/css/bootstrap.css';
+@import '../../assets/css/style.css';
+@import '../../assets/css/font-awesome.min.css';
+@import '../../assets/css/css_slider.css';
+@import '../../assets/vendor/mdi-font/css/material-design-iconic-font.min.css';
+@import '../../assets/vendor/font-awesome-4.7/css/font-awesome.min.css';
+@import '../../assets/vendor/select2/select2.min.css';
 .payment-response {
   max-width: 600px;
   margin: auto;

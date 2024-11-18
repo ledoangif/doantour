@@ -1,5 +1,9 @@
 <template>
-    <CVModal :id_model="id_modal" :data_bs_target_modal="data_bs_target_modal">
+    <CVModal
+    :id_model="id_modal"
+    :data_bs_target_modal="data_bs_target_modal"
+    @close-modal="resetForm" 
+  >
         <template #icon>
             <slot name="icon"></slot>
         </template>
@@ -12,7 +16,7 @@
             </span>
         </template>
         <template #body>
-            <Form @submit="handleSubmit">
+            <Form @submit="handleSubmit" ref="form">
                 <div class="row mb-3 form-group required">
                     <label
                         for="email"
@@ -25,10 +29,14 @@
                             v-model="account.email"
                             name="email"
                             class="form-control"
-                            :rules="{ required: true, email: true }"
+                            :rules="{email: true }"
+                            @input="clearEmailError"
                         />
                         <ErrorMessage name="email" class="text-danger" />
-                        <span v-if="emailError" class="text-danger">{{ emailError }}</span>
+                        <span v-if="emailError === 'Email này đã tồn tại.'" class="text-danger">{{ emailError }}</span>
+    
+                        <!-- Hiển thị lỗi nếu email trống hoặc không hợp lệ -->
+                        <span v-if="emailError === 'Thông tin này không được để trống!'" class="text-danger">{{ emailError }}</span>
                     </div>
                 </div>
 
@@ -76,10 +84,10 @@
                     <div class="col-sm-9">
                         <Field
                             name="phoneNumber"
-                            :rules="{ required: true, phone: true }"
                             v-model="account.phone"
                             type="text"
                             class="form-control"
+                            :rules="{ required: true, phone: true }"
                         />
                         <ErrorMessage name="phoneNumber" class="text-danger" />
                     </div>
@@ -106,17 +114,9 @@
                     </div>
                 </div>
                 <div class="modal-footer align-content-center justify-content-center">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" >
                         <i class="fa-solid fa-floppy-disk mx-1"></i>
                         Lưu
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-outline-primary cancel-btn"
-                        data-bs-dismiss="modal"
-                    >
-                        <i class="fa-solid fa-arrow-left mx-1"></i>
-                        Huỷ bỏ
                     </button>
                 </div>
             </Form>
@@ -124,12 +124,14 @@
     </CVModal>
 </template>
 
-<script>
+<script >
 import Api from '~/service/Base/api.ts';
 import { configure, defineRule, Field, Form, ErrorMessage } from 'vee-validate';
-
+import CVModal from '~/components/form/CVModal.vue';
+import { useToast } from 'vue-toast-notification';
+import { ref } from 'vue';
+const toast = useToast();
 const api = new Api();
-
 export default {
     name: 'CreateUpdateAccountModal',
     props: {
@@ -161,22 +163,16 @@ export default {
         return {
             account: {
                 id: '',
-                email: null,
-                password: null,
-                fullName: null,
-                phone: null,
+                email: '',
+                password: '',
+                fullName: '',
+                phone: '',
                 roleId: 2,
             },
             emailError: "", // Thông báo lỗi email trùng
         };
     },
     watch: {
-        /**
-         * Watcher for the 'editAccount' property.
-         * It's set to be immediate, so it runs on component mount, not just when 'editAccount' changes.
-         * The handler function is called whenever 'editAccount' changes.
-         * @param {Object} newVal - The new value of 'editAccount'.
-         */
         editAccount: {
             immediate: true,
             handler(newVal) {
@@ -187,70 +183,64 @@ export default {
         },
     },
     methods: {
-        
-        /**
-         * Create a new account
-         */
-        // createAccount() {
-        //     api.postAPI('/Account/register', this.account)
-        //         .then((res) => {
-        //             this.$emit('account-saved');
-        //             $('.cancel-btn').click();
-        //             $(`#${this.id_modal}`).modal('hide');
-        //         })
-        //         .catch((err) => {});
-        // },
         async createAccount() {
-        // Kiểm tra email trước
-        try {
-            const response = await api.get(`/Account/email`, {
-                params: { email: this.account.email }
-            });
-            if (response.data.responseData) {
-                this.emailError = "Email này đã tồn tại.";
-                return; // Dừng lại nếu email đã tồn tại
-            } else {
-                this.emailError = ""; // Xóa thông báo lỗi nếu email không trùng
+            if (this.account.email === "") {
+                this.emailError = "Thông tin này không được để trống!";  // Cảnh báo nếu email trống
+                return;
             }
-
-            // Nếu email không trùng, tiến hành gọi API đăng ký
-            await api.postAPI('/Account/register', this.account);
-            this.$emit('account-saved'); // Phát sự kiện lưu thành công
-            $('.cancel-btn').click();
-            $(`#${this.id_modal}`).modal('hide'); // Ẩn modal
-        } catch (err) {
-            console.error(err);
-        }
-    },
-
+            try {
+                const response = await api.get(`/Account/email`, {
+                    params: { email: this.account.email }
+                });
+                if (response.data && response.data.responseData && Object.keys(response.data.responseData).length > 0) {
+                    // Nếu email đã tồn tại
+                    this.emailError = "Email này đã tồn tại.";
+                } else {
+                    // Reset lỗi nếu không có lỗi
+                    this.emailError = "";
+                }
+                // Nếu email không trùng, tiến hành gọi API đăng ký
+                const res= await api.postAPI('/Account/register', this.account);
+                if (res.status === 200) {
+                    if (res.data && res.data.message) {
+                        // Hiển thị thông báo thành công
+                        toast.success(res.data.message);  // Hiển thị thông báo với toast (thành công)
+                    }
+                }
+                this.$emit('account-saved'); // Phát sự kiện lưu thành công
+            } catch (err) {
+                console.error(err);
+            }
+        },
         async updateAccount() {
-        // Kiểm tra xem dữ liệu có thay đổi so với dữ liệu ban đầu không
-        const isChanged = Object.keys(this.account).some(
-            key => this.account[key] !== this.editAccount[key]
-        );
-        if (!isChanged) {
-            //this.emailError = "Không có thay đổi nào được thực hiện.";
-            return; // Không thực hiện cập nhật và không ẩn modal nếu không có thay đổi
-        }
-        //Kiểm tra email đã tồn tại chưa, nếu đã tồn tại thì báo lỗi
-        try {
-            const response = await api.get(`/Account/email`, {
-                params: { email: this.account.email }
-            });
-            if (response.data.responseData) {
-                this.emailError = "Email này đã tồn tại.";
-                return; // Dừng lại nếu email đã tồn tại
-            } else {
-                this.emailError = ""; // Xóa thông báo lỗi nếu email không trùng
+            if (this.account.email === "") {
+                this.emailError = "Thông tin này không được để trống!";  // Cảnh báo nếu email trống
+                return;
             }
-            await api.putAPI(`/Account/${this.editAccount.id}`, this.account);
-            this.$emit('account-saved');
-            $('.cancel-btn').click();
-            $(`#${this.id_modal}`).modal('hide'); // Ẩn modal sau khi cập nhật thành công
-        } catch (err) {
-            console.error(err);
-        }
-    },
+            try {
+                const response = await api.get(`/Account/email`, {
+                    params: { email: this.account.email }
+                });
+                if (response.data && response.data.responseData && Object.keys(response.data.responseData).length > 0) {
+                    // Nếu email đã tồn tại
+                    this.emailError = "Email này đã tồn tại.";
+                } else {
+                    // Reset lỗi nếu không có lỗi
+                    this.emailError = "";
+                }             
+                const edit=await api.putAPI(`/Account/${this.editAccount.id}`, this.account);
+                if (edit.status === 200) {
+                    if (edit.data && edit.data.message) {
+                        // Hiển thị thông báo thành công
+                        toast.success(edit.data.message);  // Hiển thị thông báo với toast (thành công)
+                    }
+                }
+                this.$emit('account-saved');
+                
+                } catch (err) {
+                    console.error(err);
+                }
+            },
         async getAccountByEmail() {
             try {
                 const response = await api.get(`/Account/email`, {
@@ -280,15 +270,25 @@ export default {
                 .catch((err) => console.log(err));
         },
         resetForm() {
+            console.log('resetForm đã được gọi'); // Log để kiểm tra xem có gọi được hàm không
             this.account = {
                 id: '',
-                email: null,
-                password: null,
-                fullName: null,
-                phoneNumber: null,
+                email: '',
+                password: '',
+                fullName: '',
+                phoneNumber: '',
                 roleId: 2,
             };
-        },
+            // Reset lỗi email
+                this.emailError = '';
+                // Reset form vee-validate
+                this.$refs.form.resetForm();  // Reset form đã lưu tham chiếu trong ref
+                this.$refs.form.setErrors({}); // Reset tất cả các lỗi validation (nếu có)
+                },
+            },
+            clearEmailError() {
+            // Reset email error khi người dùng bắt đầu sửa
+            this.emailError = "";
     },
     components: {
         Form,

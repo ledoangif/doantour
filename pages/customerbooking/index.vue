@@ -1,5 +1,8 @@
 <template>
-    <HeaderDetail />
+    <HeaderHome />
+    <section class="banner_inner" id="home">
+        <div class="banner_inner_overlay"></div>
+    </section>
     <div class="fs-5 border-bottom py-4">
         <div class="container d-flex flex-row">
             <div style="color: #377df4" class="me-2" >1.Nhập thông tin </div>
@@ -70,7 +73,6 @@
                                              />
                                        <ErrorMessage name="phoneNumber" class="text-danger" />
                                     </div>
-                                    
                                 </div>
                             </div>
                             <div class="col-6">
@@ -110,7 +112,6 @@
                                        />
                                        <ErrorMessage name="address" class="text-danger" /> 
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -170,7 +171,7 @@
                     </div>
                     <h5 class="heading mt-5">Thông tin hành khách</h5>
                     <div class="rounded-4 bg-light mt-2" style="height: 400px">
-                        <div class="my-3 form-group required">
+                        <div class="my-3 form-group ">
                             <label
                                 for="source-name"
                                 class="col-form-label control-label ms-4"
@@ -206,107 +207,6 @@
         :listCustomer ="ListCustomer"
         :payment="payment"/>
             </div>
-            <!-- <h2 class="mt-4">Thanh Toán</h2>
-                    <h4 class="mt-4">Các hình thức thanh toán</h4>
-                    <div class="row mt-4">
-                        <div class="col-6">
-                            <div
-                                class="bg-light rounded payment"
-                                :style="{
-                                    border:
-                                        payment === Tour_constants.Cash
-                                            ? '2px solid gray'
-                                            : '',
-                                }"
-                            >
-                                <span
-                                    class="ps-4 py-3 d-flex flex-row justify-content-between"
-                                >
-                                    <div class="d-flex flex-row">
-                                        <i
-                                            class="fa-regular fa-money-bill-1 me-2"
-                                            style="font-size: 1.6em"
-                                        ></i>
-                                        <h5>Tiền mặt</h5>
-                                    </div>
-                                    <input
-                                        type="radio"
-                                        class="me-2"
-                                        v-model="payment"
-                                        value="Tour_constants.Cash"
-                                        @change="togglePaymentInfo(Tour_constants.Cash)"
-                                    />
-                                </span>
-                                <div
-                                    class="ms-4 pb-3"
-                                    v-if="payment === Tour_constants.Cash"
-                                >
-                                    Quý khách vui lòng thanh toán tại bất kỳ văn phòng
-                                    Vietravel trên toàn quốc và các chi nhánh tại nước
-                                    ngoài. Xem chi tiết.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div
-                                class="bg-light rounded payment"
-                                :style="{
-                                    border:
-                                        payment === Tour_constants.Banking
-                                            ? '2px solid gray'
-                                            : '',
-                                }"
-                            >
-                                <span
-                                    class="ps-4 py-3 d-flex flex-row justify-content-between"
-                                >
-                                    <div class="d-flex flex-row">
-                                        <i
-                                            class="fa-solid fa-building-columns me-2"
-                                            style="font-size: 1.6em"
-                                        ></i>
-                                        <h5>Chuyển khoản</h5>
-                                    </div>
-                                    <input
-                                        type="radio"
-                                        class="me-2"
-                                        v-model="payment"
-                                        value="Tour_constants.Banking"
-                                        @change="
-                                            togglePaymentInfo(Tour_constants.Banking)
-                                        "
-                                    />
-                                </span>
-                                <div
-                                    class="ms-4 pb-3"
-                                    v-if="payment === Tour_constants.Banking"
-                                >
-                                    Quý khách sau khi thực hiện việc chuyển khoản vui lòng
-                                    gửi email đến :
-                                    <span class="text-danger fw-bold"
-                                        >tructuyen@Hachu Travel.com</span
-                                    >
-
-                                    hoặc gọi
-                                    <span class="text-danger fw-bold"
-                                        >tổng đài 19001839</span
-                                    >
-                                    để được xác nhận từ công ty chúng tôi.<br />
-                                    <div class="mt-2">
-                                        Tên Tài Khoản : Công ty CP Du lịch và Tiếp thị
-                                        GTVT Việt Nam
-                                    </div>
-
-                                    – Hachu Travel Tên tài khoản viết tắt : Hachu Travel <br />
-                                    <div class="d-flex flex-row">
-                                        <span>Số Tài khoản :</span>
-                                        <h6 class="mt-1 ms-2">909 890 987 097</h6>
-                                    </div>
-                                    Ngân hàng : Vietinbank - Chi nhánh 7
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
         </div>
     </section>
 
@@ -355,8 +255,6 @@ const togglePaymentInfo = async (index) => {
         payment.value = index;
         isPaymentSelected = true;
     }
-
-    
 };
 
 /**
@@ -391,9 +289,6 @@ const ToTalBill = computed(() => {
     return totalAdult + totalChild;
 });
 
-
-
-
 /**
  * fetch data
  */
@@ -421,4 +316,118 @@ onMounted(async () => {
 @import '../../assets/vendor/mdi-font/css/material-design-iconic-font.min.css';
 @import '../../assets/vendor/font-awesome-4.7/css/font-awesome.min.css';
 @import '../../assets/vendor/select2/select2.min.css';
+@media (max-width: 768px) {
+  /* Chỉnh sửa ảnh nhỏ */
+  .image-tour3 img {
+    height: 150px; /* Giảm chiều cao ảnh */
+    object-fit: cover;
+    width: 100%; /* Đảm bảo ảnh chiếm đầy màn hình */
+  }
+
+  /* Các trường nhập liệu thành hàng dọc */
+  .form-group {
+    display: block;
+    width: 100%;
+  }
+
+  .col-6 {
+    width: 100%; /* Mỗi cột chiếm 100% chiều rộng */
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .form-control {
+    font-size: 14px; /* Giảm font size */
+    padding: 10px; /* Giảm padding */
+  }
+
+  .form-group label {
+    font-size: 14px;
+    padding-left: 0;
+    margin-bottom: 5px;
+  }
+
+  /* Cải thiện layout của các trường nhập liệu */
+  .my-3 {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* Thông tin liên lạc kéo dài ra */
+  .info-contact .form-group {
+    width: 100%;
+  }
+
+  .info-contact .col-sm-12 {
+    width: 100%;
+  }
+
+  /* Hành khách: mỗi loại 1 dòng */
+  .passenger-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .passenger-info .col-5 {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  /* Giảm kích thước các phần tử hành khách */
+  .d-flex.flex-row {
+    flex-direction: column; /* Chuyển flex-row thành flex-column trên di động */
+    gap: 15px;
+  }
+
+  /* Thu gọn thông tin hành khách */
+  .rounded-4.bg-light {
+    height: auto;
+    padding: 10px;
+  }
+
+  /* Sửa phần tiêu đề */
+  .heading {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /* Tóm tắt chuyến đi xuống dưới thông tin khách hàng */
+  .summary-tour {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+
+  .row.bg-light {
+    margin-bottom: 15px; /* Tạo khoảng cách giữa các phần tử */
+  }
+  
+  /* Điều chỉnh các ô thông tin hành khách */
+  .my-3.form-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  /* Điều chỉnh thẻ label */
+  .col-form-label {
+    font-size: 14px;
+    padding-left: 0;
+  }
+  
+  /* Bảng thông tin khách hàng */
+  .rounded-4 {
+    padding: 10px;
+  }
+
+  /* Tạo một container dài hơn nếu cần thiết */
+  .container {
+    min-height: 100vh; /* Đảm bảo chiều cao của trang chiếm toàn bộ màn hình */
+  }
+
+  /* Thông tin hành khách ngắn gọn hơn */
+  .col-4, .col-8 {
+    width: 100%;
+    padding: 5px;
+  }
+}
 </style>

@@ -4,7 +4,7 @@
             class="mt-5"
             style="border: 2px solid rgba(211, 211, 211, 0.5); height: 580px"
         >
-            <h5 class="fw-bold mt-4 ms-3">Tóm tắt chuyến di</h5>
+            <h5 class="fw-bold mt-4 ms-3">Tóm tắt chuyến đi</h5>
             <div class="d-flex flex-row m-3">
                 <div class="col-2 p-0 m-0">
                     <div class="image-tour4 position-relative mt-3 ms-2">
@@ -191,7 +191,6 @@ const handleSubmit = async () => {
                 throw new Error('New customer could not be retrieved.');
             }
         }
-
         // Step 4: Create the booking
         const { id: tourId } = props.tour;
         const {
@@ -221,7 +220,6 @@ const handleSubmit = async () => {
             alert('Vé hiện không đủ để đặt');
             return;
         }
-
         // Fetch the booking to get its ID
         const resBooking = await api.get(`/Booking`, {
             params: { customerId, tourId },

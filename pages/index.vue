@@ -18,9 +18,7 @@
                                         những giấc mơ của bạn.
                                     </h3>
                                     <h4 class="text-wh">Vui vẻ hơn mỗi ngày!</h4>
-                                    <div class="buttons mt-4">
-                                        <a href="/tourcustomer" class="btn">Đặt Tour</a>
-                                    </div>
+                                    <NuxtLink to="/tourcustomer" class="btn mr-2">Đặt tour</NuxtLink>
                                 </div>
                             </div>
                         </div>
@@ -36,18 +34,8 @@
                                     </h3>
                                     <h4 class="text-wh">Còn chần chừ gì nữa!!</h4>
                                     <div class="buttons mt-4">
-                                        <a
-                                            asp-controller="Home"
-                                            asp-action="AboutUs"
-                                            class="btn mr-2"
-                                            >Về chúng tôi</a
-                                        >
-                                        <a
-                                            asp-controller="Access"
-                                            asp-action="Login"
-                                            class="btn"
-                                            >Đặt tour</a
-                                        >
+                                        <NuxtLink to="/" class="btn mr-2">Về chúng tôi</NuxtLink>
+                                        <NuxtLink to="/tourcustomer" class="btn mr-2">Đặt tour</NuxtLink>
                                     </div>
                                 </div>
                             </div>
@@ -65,18 +53,8 @@
                                     </h3>
                                     <h4 class="text-wh">Vui vẻ hơn mỗi ngày!</h4>
                                     <div class="buttons mt-4">
-                                        <a
-                                            asp-controller="Home"
-                                            asp-action="AboutUs"
-                                            class="btn mr-2"
-                                            >Về chúng tôi
-                                        </a>
-                                        <a
-                                            asp-controller="Access"
-                                            asp-action="Login"
-                                            class="btn"
-                                            >Đặt tour</a
-                                        >
+                                        <NuxtLink to="/" class="btn mr-2">Về chúng tôi</NuxtLink>
+                                        <NuxtLink to="/tourcustomer" class="btn mr-2">Đặt tour</NuxtLink>
                                     </div>
                                 </div>
                             </div>
@@ -91,18 +69,8 @@
                                     <h3 class="text-wh">Kỉ niệm qua mỗi chuyến đi!</h3>
                                     <h4 class="text-wh">Vui vẻ !!!!</h4>
                                     <div class="buttons mt-4">
-                                        <a
-                                            asp-controller="Home"
-                                            asp-action="AboutUs"
-                                            class="btn mr-2"
-                                            >Về chúng tôi
-                                        </a>
-                                        <a
-                                            asp-controller="Access"
-                                            asp-action="Login"
-                                            class="btn"
-                                            >Đặt tour</a
-                                        >
+                                        <NuxtLink to="/" class="btn mr-2">Về chúng tôi</NuxtLink>
+                                        <NuxtLink to="/tourcustomer" class="btn mr-2">Đặt tour</NuxtLink>
                                     </div>
                                 </div>
                             </div>

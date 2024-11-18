@@ -8,47 +8,41 @@
                     alt="logo"
                 />
             </div>
-
             <div class="bg-light p-4 rounded shadow mx-auto" style="width: 25%;">
                 <div class="fs-3 text-center mb-4 text-dark">ĐĂNG NHẬP TÀI KHOẢN</div>
 
                 <form @submit.prevent="login">
                     <div class="mt-10">
                         <div class="col-lg-12 mx-auto">
-                            <div class="input-group mb-3">
+                            <div class="mb-4">
                                 <input
                                     type="text"
                                     class="form-control"
-                                    aria-label="Sizing example input"
                                     v-model="User.email"
                                     name="email"
                                     placeholder="Email"
-                                    aria-describedby="inputGroup-sizing-lg"
                                     @blur="validateEmail"
                                 />
+                                <div v-if="emailError" class="text-danger">{{ emailError }}</div>
                             </div>
-                            <div v-if="emailError" class="text-danger">{{ emailError }}</div>
 
-                            <div class="input-group mb-3">
+                            <div class="mb-4">
                                 <input
                                     type="password"
                                     class="form-control"
-                                    aria-label="Sizing example input"
-                                    placeholder="Password"
+                                    placeholder="Mật khẩu"
                                     v-model="User.password"
-                                    aria-describedby="inputGroup-sizing-lg"
                                     @blur="validatePassword"
                                 />
+                                <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
                             </div>
-                            <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
                         </div>
                     </div>
                     <div class="text-center m-4">
                         <button type="submit" class="btn btn-primary">Đăng Nhập</button>
                     </div>
                 </form>
-                <!-- Thông báo lỗi đăng nhập sẽ được hiển thị ở đây -->
-                <div v-if="errorMessage" class="text-danger text-center fs-5">{{ errorMessage }}</div>
+                <div v-if="errorMessage" class="text-danger text-center">{{ errorMessage }}</div>
             </div>
         </div>
     </div>
@@ -56,8 +50,9 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useToast } from 'vue-toast-notification';
 import Api from '~/service/Base/api.ts';
-
+const toast = useToast();
 /** auth */
 definePageMeta({
     layout: false,
@@ -106,18 +101,22 @@ const login = async () => {
     // Validate before submitting
     validateEmail();
     validatePassword();
-
     if (emailError.value || passwordError.value) {
         return;
     }
-
+    
     try {
-        const formData = new FormData();
-        formData.append('email', User.value.email);
-        formData.append('password', User.value.password);
-
-        const response = await api.postAPI('/Account/login', formData);
-
+        const loginData = {
+            email: User.value.email,
+            password: User.value.password
+        };
+        const response = await api.postAPI('/Account/login', loginData);
+        if (response.status === 200) {
+            if (response.data && response.data.message) {
+                // Hiển thị thông báo thành công
+                toast.success(response.data.message);  // Hiển thị thông báo với toast (thành công)
+            }
+        }
         // Save login info to localStorage
         localStorage.setItem('token', response.data.responseData.accessToken);
         localStorage.setItem('userId', response.data.responseData.userId);
@@ -126,6 +125,7 @@ const login = async () => {
         localStorage.setItem('role', response.data.responseData.role);
 
         navigateTo('/booking');
+        //toast.success('Đăng nhập thành công!');
     } catch (error) {
         console.log(error);
         // Kiểm tra lỗi từ server và hiển thị thông báo tương ứng
@@ -149,5 +149,7 @@ const login = async () => {
 
 .text-danger {
     color: #dc3545 !important; /* Màu đỏ đậm cho thông báo lỗi */
+    font-size: 1rem;
 }
+
 </style>

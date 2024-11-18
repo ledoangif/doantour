@@ -21,33 +21,32 @@
     </CVModal>
 </template>
 
-<script>
+<script setup>
 import Api from '~/service/Base/api.ts';
-import axios from 'axios'
+import { useToast } from 'vue-toast-notification';
+const toast = useToast();
+const props = defineProps({
+    accountId: {
+        type: String,
+        required: true,
+    },
+});
 
-const api =  new Api();
+const api = new Api();
+const emits = defineEmits(['account-deleted', 'hide-modal']);
 
-export default {
-    props: {
-        accountId: {
-            type: String,
-            required: true,
-        },
-    },
-    data() {
-        return {};
-    },
-    methods: {
-        deleteAccount() {
-            const id = this.accountId;
-            axios.delete(`https://localhost:44308/api/Account/${id}`).then((res) => {
-                this.$emit('account-deleted', id);
-                $('#deleteAccountModal').modal('hide');
-                this.$toast.success("Xóa thành công!");
-                $('.btn-close').click();
-            });
-        },
-    },
+const deleteAccount = () => {
+    const id = props.accountId;
+    api.deleteById('/Account', id)
+        .then((res) => {
+            emits('account-deleted', id); // Emit sự kiện khi xóa tài khoản thành công
+            emits('hide-modal'); // Emit sự kiện để đóng modal
+            $('.btn-close').click(); // Đóng modal
+            toast.success("Xóa thành công")
+        })
+        .catch((error) => {
+            console.error('Lỗi khi xóa tài khoản:', error);
+        });
 };
 </script>
 

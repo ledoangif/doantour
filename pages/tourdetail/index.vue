@@ -1,5 +1,8 @@
 <template>
-    <HeaderDetail />
+    <HeaderHome />
+    <section class="banner_inner" id="home">
+        <div class="banner_inner_overlay"></div>
+    </section>
     <section class="packages">
         <div class="container py-lg-4">
             <div class="row" id="displayTours">
@@ -43,12 +46,8 @@
                         <NuxtLink
                             :to="{
                                 path: '/contact',
-                            }"
-                        >
-                        <button
-                            type="button"
-                            class="btn btn-outline-secondary btn-small w-100 p-3"
-                        >
+                            }">
+                        <button type="button" class="btn btn-outline-secondary btn-small w-100 p-3">
                             Liên hệ tư vấn
                         </button>
                     </NuxtLink>

@@ -1,7 +1,6 @@
 <template>
     <header>
         <div class="container">
-            <!-- nav -->
             <nav class="py-md-4 py-3 d-lg-flex">
                 <div id="logo">
                     <h1 class="mt-md-0 mt-2">
@@ -17,7 +16,6 @@
                     <li class="">
                         <NuxtLink to="/">Trang chủ </NuxtLink>
                     </li>
-
                     <li class="">
                         <NuxtLink to="/tourcustomer">Tour</NuxtLink>
                     </li>
@@ -26,7 +24,6 @@
                     </li>
                 </ul>
             </nav>
-            <!-- //nav -->
         </div>
     </header>
 </template>

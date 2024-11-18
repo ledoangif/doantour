@@ -21,7 +21,8 @@
 </template>
 <script setup>
 import Api from '~/service/Base/api.ts';
-
+import { useToast } from 'vue-toast-notification';
+const toast = useToast();
 const props = defineProps({
     TourId: {
         type: String,
@@ -38,6 +39,7 @@ const deleteTour = () => {
             emits('Tour-deleted', id);
             emits('hide-modal');
             $('.btn-close').click();
+            toast.success('Xóa thành công')
         })
         .catch((error) => {
             console.error('Lỗi khi xóa hTour:', error);

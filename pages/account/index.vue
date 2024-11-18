@@ -335,6 +335,20 @@ export default defineComponent({
             this.searchString = '';
             this.getAccounts();
         },
+//         handleAccountSaved() {
+//     // Cập nhật danh sách tài khoản trước khi đóng modal
+//     this.getAccounts();
+
+//     // Đảm bảo modal được đóng sau khi dữ liệu đã được cập nhật
+//     this.$nextTick(() => {
+//         // Tự động đóng modal bằng data-bs-dismiss
+//         const closeButton = document.querySelector('[data-bs-dismiss="modal"]');
+//         if (closeButton) {
+//             closeButton.click();
+//         }
+//     });
+// }
+
     },
 
     components: { Search, DeleteAccountModal, TheFormCreateUpdateAccount },

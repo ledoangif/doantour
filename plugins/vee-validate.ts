@@ -42,12 +42,12 @@ export default defineNuxtPlugin(() => {
     });
     defineRule('phone', (value: string) => {
         // Vietnamese phone number pattern
-        const pattern = /((03|05|07|08|09|01[2|6|8|9])+([0-9]{8})|((\+84)+([0-9]{9})))\b/;
+        const pattern = /((03|05|07|08|09|01[2|6|8|9])+([0-9]{8})|((\+84)+([0-9]{9})))\b/; //\d{8}: Theo sau mã đầu số là 8 chữ số (điều này đảm bảo số điện thoại có đủ 10 chữ số)
         return pattern.test(value) || 'Số điện thoại không đúng.';
     });
     defineRule('onlyCharacters', (value: string) => {
         // Regex pattern allows only letters (both uppercase and lowercase)
-        const pattern = /^[A-Za-zÀ-ÖØ-öø-ÿ\sđĐâÂêÊôÔươƯơƠáÁắẮấẤéÉếẾíÍóÓốỐúÚứỨýÝàÀằẰầẦèÈềỀìÌòÒồỒùÙừỪỳỲảẢẳẲẩẨẻẺểỂỉỈỏỎổỔủỦửỬỷỶãÃẵẴẫẪẽẼễỄĩĨõÕỗỖũŨữỮỹỸạẠặẶậẬẹẸệỆịỊọỌộỘụỤựỰỵỴ]+$/;
+        const pattern = /^[A-Za-zÀ-ỹ\s]+$/;
         return pattern.test(value) || 'Họ tên chỉ được chứa ký tự chữ cái.';
     });
 
@@ -61,7 +61,39 @@ export default defineNuxtPlugin(() => {
         }
         return true;
     });
+    defineRule('naturalNumber', (value: string) => {
+        // Thử chuyển đổi giá trị thành số nguyên
+        const number = parseInt(value, 10);
 
+        // Kiểm tra nếu giá trị không phải là một số hợp lệ, không phải số nguyên, hoặc nhỏ hơn 1
+        if (isNaN(number) || number < 1 || value.includes('.') || value.includes(',')) {
+            return 'Phải là số tự nhiên, không có dấu thập phân và phải lớn hơn hoặc bằng 1.';
+        }
+        return true;
+    });
+    defineRule('cost', (value: string) => {
+        const number = parseInt(value, 10);
+        // Kiểm tra nếu giá trị không phải là số nguyên hợp lệ, nhỏ hơn hoặc bằng 0 hoặc có dấu thập phân
+        if (isNaN(number) || number < 0 || value.includes('.')) {
+            return 'Giá tiền là số nguyên dương lớn hơn 0, có dấu phẩy phân cách hàng nghìn.';
+        }
+        return true;
+    });
+    defineRule('discount', (value: string) => {
+        const number = parseFloat(value);
+        // Kiểm tra nếu giá trị không phải là số hợp lệ hoặc nằm ngoài phạm vi 0-100
+        if (isNaN(number) || number < 0 || number > 100) {
+            return 'Giảm giá phải là một số và nằm trong khoảng từ 0 đến 100.';
+        }
+        return true;
+    });
+    // Quy tắc "Ngày kết thúc phải lớn hơn ngày bắt đầu"
+    defineRule('endDateGreaterThanStart', (value: string, [startDate]: any) => {
+        if (!value || !startDate) return true;
+        const start = new Date(startDate);
+        const end = new Date(value);
+        return end > start || 'Ngày kết thúc phải lớn hơn ngày bắt đầu';
+    });
     // defineRule('MustPositive', (value: string) => {
     //     const number = parseFloat(value);
     //     if (isNaN(number) && value != null && number <=0  ) {

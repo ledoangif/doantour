@@ -1,6 +1,6 @@
 <template>
-    <Form @submit="handleSubmit">
-        <CVModal id_model="create-update-Tour-modal">
+    <Form @submit="handleSubmit" ref="form">
+        <CVModal id_model="create-update-Tour-modal" @close-modal="resetForm">
             <template #icon>
                 <slot name="icon"></slot>
             </template>
@@ -16,258 +16,142 @@
                 <div class="row">
                     <div class="row col-lg-6 mb-3 form-group required">
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Ảnh
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    name="image"
-                                    v-model="Tour.image"
-                                    type="file"
-                                    class="form-control"
-                                    :rules="{ required: true}"
-                                    @change="handlefiles"
-                                />
+                                <Field name="image" v-model="Tour.image" type="file" class="form-control"
+                                    :rules="{ required: true }" @change="handlefiles" />
                                 <ErrorMessage name="image" class="text-danger" />
                             </div>
                         </div>
                         <div class="row form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Số lượng vé
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    id="seat"
-                                    name="seat"
-                                    v-model="Tour.seat"
-                                    class="form-control"
-                                    :rules="{ required: true}"
-                                />
+                                <Field id="seat" name="seat" v-model="Tour.seat" class="form-control"
+                                    :rules="{ required: true,naturalNumber: true }" />
                                 <ErrorMessage name="seat" class="text-danger" />
                                 <br />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Giá tiền
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    id="cost"
-                                    name="cost"
-                                    v-model="computedValue"
-                                    class="form-control"
-                                    :rules="{ required: true}"
-                                    @click="handleInput"
-                                />
+                                <Field id="cost" name="cost" v-model="computedValue" class="form-control"
+                                    :rules="{ required: true,cost: true }" @click="handleInput" />
                                 <ErrorMessage name="cost" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Giảm giá
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    name="discount"
-                                    v-model="Tour.discount"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{ required: true}"
-                                />
+                                <Field name="discount" v-model="Tour.discount" type="text" class="form-control"
+                                    :rules="{ required: true, discount:true }" />
                                 <ErrorMessage name="discount" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Nội địa?
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    as="select"
-                                    id="isLocal"
-                                    name="isLocal"
-                                    v-model="Tour.isLocal"
-                                    class="form-control"
-                                >
-                                    <option
-                                        v-for="item in isLocal"
-                                        class="text-dark"
-                                        :value="item.value"
-                                    >
+                                <Field as="select" id="isLocal" name="isLocal" v-model="Tour.isLocal"
+                                    class="form-control">
+                                    <option v-for="item in isLocal" class="text-dark" :value="item.value">
                                         {{ item.value }}
                                     </option>
                                 </Field>
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Quốc Gia
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    as="select"
-                                    id="country"
-                                    name="country"
-                                    v-model="Tour.countryId"
-                                    class="form-control"
-                                >
-                                    <option
-                                        v-for="item in filteredCountries"
-                                        class="text-dark"
-                                        :value="item.id"
-                                    >
+                                <Field as="select" id="country" name="country" v-model="Tour.countryId"
+                                    class="form-control">
+                                    <option v-for="item in filteredCountries" class="text-dark" :value="item.id">
                                         {{ item.countryName }}
                                     </option>
                                 </Field>
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Địa điểm
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    name="place"
-                                    v-model="Tour.place"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{ required: true}"
-                                />
+                                <Field name="place" v-model="Tour.place" type="text" class="form-control"
+                                    :rules="{ required: true }" />
                                 <ErrorMessage name="place" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Nơi khởi hành
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    name="placeStart"
-                                    v-model="Tour.placeStart"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{ required: true}"
-                                />
+                                <Field name="placeStart" v-model="Tour.placeStart" type="text" class="form-control"
+                                    :rules="{ required: true }" />
                                 <ErrorMessage name="placeStart" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Nơi tập trung
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    name="meetingPoint"
-                                    v-model="Tour.meetingPoint"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{ required: true}"
-                                />
+                                <Field name="meetingPoint" v-model="Tour.meetingPoint" type="text" class="form-control"
+                                    :rules="{ required: true }" />
                                 <ErrorMessage name="meetingPoint" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Nơi kết thúc
                             </label>
                             <div class="col-sm-8">
-                                <Field
-                                    name="placeEnd"
-                                    v-model="Tour.placeEnd"
-                                    type="text"
-                                    class="form-control"
-                                    :rules="{ required: true}"
-                                />
+                                <Field name="placeEnd" v-model="Tour.placeEnd" type="text" class="form-control"
+                                    :rules="{ required: true }" />
                                 <ErrorMessage name="placeEnd" class="text-danger" />
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Ngày bắt đầu
                             </label>
                             <div class="col-sm-8 d-flex flex-row">
                                 <span class="col-4">
-                                    <Field
-                                        name="timeStart"
-                                        v-model="Tour.timeStart"
-                                        type="time"
-                                        class="input-edit me-1 form-control"
-                                        :rules="{ required: true}"
-                                    />
+                                    <Field name="timeStart" v-model="Tour.timeStart" type="time"
+                                        class="input-edit me-1 form-control" :rules="{ required: true }" />
                                     <ErrorMessage name="timeStart" class="text-danger" />
                                 </span>
                                 <span class="col-8 ms-2">
-                                    <Field
-                                        name="dateStart"
-                                        v-model="Tour.dateStart"
-                                        type="date"
-                                        class="form-control"
-                                        :rules="{ required: true}"
-                                    />
+                                    <Field name="dateStart" v-model="Tour.dateStart" type="date" class="form-control"
+                                        :rules="{ required: true }" />
                                     <ErrorMessage name="dateStart" class="text-danger" />
                                 </span>
                             </div>
                         </div>
                         <div class="row mb-3 form-group required">
-                            <label
-                                for="source-name"
-                                class="col-sm-4 col-form-label control-label text-end"
-                            >
+                            <label for="source-name" class="col-sm-4 col-form-label control-label text-end">
                                 Ngày kết thúc
                             </label>
                             <div class="col-sm-8 d-flex flex-row">
                                 <span class="col-4">
-                                    <Field
-                                        name="timeEnd"
-                                        v-model="Tour.timeEnd"
-                                        type="time"
-                                        class="input-edit me-1 form-control"
-                                        :rules="{ required: true}"
-                                    />
+                                    <Field name="timeEnd" v-model="Tour.timeEnd" type="time"
+                                        class="input-edit me-1 form-control" :rules="{ required: true,endDateGreaterThanStart:true }" />
                                     <ErrorMessage name="timeEnd" class="text-danger" />
                                 </span>
                                 <span class="col-8 ms-2">
-                                    <Field
-                                        name="dateEnd"
-                                        v-model="Tour.dateEnd"
-                                        type="date"
-                                        class="form-control"
-                                        :rules="{ required: true}"
-                                    />
+                                    <Field name="dateEnd" v-model="Tour.dateEnd" type="date" class="form-control"
+                                        :rules="{ required: true }" />
                                     <ErrorMessage name="dateEnd" class="text-danger" />
                                 </span>
                             </div>
@@ -275,93 +159,41 @@
                     </div>
                     <div class="row col-lg-6">
                         <div class="row form-group required mb-3">
-                            <label
-                                for="source-name"
-                                class="col-sm-3 col-form-label control-label text-end"
-                                >Tên Tour
+                            <label for="source-name" class="col-sm-3 col-form-label control-label text-end">Tên Tour
                             </label>
                             <div class="col-9">
-                                <Field 
-                                    as="textarea"
-                                    name="nameTour"
-                                    v-model="Tour.nameTour"
-                                    type="text"
-                                    class="form-control"
-                                    style="height: 50px"
-                                    :rules="{ required: true}"
-                                />
+                                <Field as="textarea" name="nameTour" v-model="Tour.nameTour" type="text"
+                                    class="form-control" style="height: 50px" :rules="{ required: true }" />
                                 <ErrorMessage name="nameTour" class="text-danger" />
                             </div>
                         </div>
                         <div class="row form-group required mb-3">
-                            <label
-                                for="source-name"
-                                class="col-sm-3 col-form-label control-label text-end"
-                                >Mô tả
+                            <label for="source-name" class="col-sm-3 col-form-label control-label text-end">Mô tả
                             </label>
                             <div class="col-sm-9">
-                                <Field 
-                                    as="textarea"
-                                    name="descripttion"
-                                    v-model="Tour.descripttion"
-                                    type="text"
-                                    class="form-control"
-                                    style="height: 150px"
-                                    :rules="{ required: true}"
-                                />
+                                <Field as="textarea" name="descripttion" v-model="Tour.descripttion" type="text"
+                                    class="form-control" style="height: 150px" :rules="{ required: true }" />
                                 <ErrorMessage name="descripttion" class="text-danger" />
                             </div>
                         </div>
                         <div class="row form-group required mb-3">
-                            <label
-                                for="source-name"
-                                class="col-sm-3 col-form-label control-label text-end"
-                                >Dịch vụ bao gồm
-                            </label>
-                            <div class="col-sm-9">
-                                <Field 
-                                    as="textarea"
-                                    name="serviceInclude"
-                                    v-model="Tour.serviceInclude"
-                                    type="text"
-                                    class="form-control"
-                                    style="height: 150px"
-                                    :rules="{ required: true}"
-                                />
-                                <ErrorMessage name="serviceInclude" class="text-danger" />
-                            </div>
-                        </div>
-                        <div class="row form-group required mb-3">
-                            <label
-                                for="source-name"
-                                class="col-sm-3 col-form-label control-label text-end"
-                                >Dịch vụ bao gồm
+                            <label for="source-name" class="col-sm-3 col-form-label control-label text-end">Dịch vụ bao
+                                gồm
                             </label>
                             <div class="col-sm-9">
                                 <TipTap v-model="Tour.serviceInclude"></TipTap>
                             </div>
-
-                            <!-- <input type="text" class="input-edit "
-                                                        v-model="request.cvNote" /> -->
                         </div>
                         <div class="row form-group required mb-3">
-                            <label
-                                for="source-name"
-                                class="col-sm-3 col-form-label control-label text-end"
-                                >Dịch vụ không bao gồm
+                            <label for="source-name" class="col-sm-3 col-form-label control-label text-end">Dịch vụ
+                                không bao gồm
                             </label>
                             <div class="col-sm-9">
                                 <TipTap v-model="Tour.serviceNotInclude"></TipTap>
                             </div>
-
-                            <!-- <input type="text" class="input-edit "
-                                                        v-model="request.cvNote" /> -->
                         </div>
                         <div class="row form-group required mb-3">
-                            <label
-                                for="source-name"
-                                class="col-sm-3 col-form-label control-label text-end"
-                                >Lịch Trình
+                            <label for="source-name" class="col-sm-3 col-form-label control-label text-end">Lịch Trình
                             </label>
                             <div class="col-sm-9">
                                 <TipTap v-model="Tour.plan"></TipTap>
@@ -371,62 +203,13 @@
                 </div>
 
                 <div class="modal-footer align-content-center justify-content-center">
-                    <button
-                        v-if="isEditMode"
-                        type="submit"
-                        class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="0.88em"
-                            height="1em"
-                            viewBox="0 -70 700 700"
+                    <button v-if="isEditMode" type="submit" class="btn btn-sm btn-primary d-flex align-items-center"
                         >
-                            <path
-                                fill="#f7f7f7"
-                                d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64c0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A11.996 11.996 0 0 1 320 111.48"
-                            />
-                        </svg>
                         Lưu
                     </button>
-                    <button
-                        v-else
-                        type="submit"
-                        class="btn btn-sm btn-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="10px"
-                            height="10px"
-                            viewBox="0 -70 700 700"
+                    <button v-else type="submit" class="btn btn-sm btn-primary d-flex align-items-center"
                         >
-                            <path
-                                fill="#f7f7f7"
-                                d="m433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941M224 416c-35.346 0-64-28.654-64-64c0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64m96-304.52V212c0 6.627-5.373 12-12 12H76c-6.627 0-12-5.373-12-12V108c0-6.627 5.373-12 12-12h228.52c3.183 0 6.235 1.264 8.485 3.515l3.48 3.48A11.996 11.996 0 0 1 320 111.48"
-                            />
-                        </svg>
                         Thêm
-                    </button>
-                    <button
-                        type="reset"
-                        class="btn btn-sm btn-outline-primary d-flex align-items-center"
-                        data-bs-dismiss="modal"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 -70 700 700"
-                            class="icon"
-                            width="10px"
-                            height="10px"
-                        >
-                            <path
-                                fill="#006eff"
-                                d="m257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3"
-                            />
-                        </svg>
-                        Huỷ bỏ
                     </button>
                 </div>
             </template>
@@ -440,7 +223,7 @@ import Api from '~/service/Base/api.ts';
 import { Form, Field } from 'vee-validate';
 const api = new Api();
 const Country = ref([]);
-const formRef = ref(null);
+const formRef = ref("");
 const emits = defineEmits(['Tour-saved']);
 const accountId = ref('');
 /** received data */
@@ -484,34 +267,54 @@ const resetForm = () => {
         formRef.value.resetForm();
     }
 };
-
+// const handlefiles = async (event) => {
+//     const files = event.target.files;
+//     const formData = new FormData();
+//     formData.append('ImageFile', files[0]);
+//     var ImageResponse = await api.postAPI('/Tour/UploadFile', formData);
+//     Tour.value.image = ImageResponse.data;
+// };
 const handlefiles = async (event) => {
-    const input = event.target;
-    const file = input.files?.[0];
-
-    // Kiểm tra định dạng ảnh
-    const allowedFormats = ['jpg', 'jpeg', 'png'];
-    const fileExtension = file?.name.split('.').pop()?.toLowerCase();
-
-    if (!fileExtension || !allowedFormats.includes(fileExtension)) {
-        alert('Chỉ chấp nhận các định dạng ảnh JPG, PNG');
+    const files = event.target.files;
+    const file = files[0];
+    // Kiểm tra xem có file nào được chọn không
+    if (!file) {
+        alert("Vui lòng chọn một file.");
+        return;
+    }
+    // Kiểm tra định dạng file (chỉ cho phép jpg hoặc png)
+    const validExtensions = ['image/jpeg', 'image/png']; // Định dạng file hợp lệ
+    if (!validExtensions.includes(file.type)) {
+        alert("Chỉ chấp nhận ảnh có định dạng JPG hoặc PNG.");
+        // Reset input file (Xóa file đã chọn)
+        event.target.value = '';
+        return;
+    }
+    // Kiểm tra kích thước file (không vượt quá 2MB)
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSize) {
+        alert("Kích thước file không được vượt quá 2MB.");
+        // Reset input file (Xóa file đã chọn)
+        event.target.value = '';
         return;
     }
 
-    // Thực hiện upload ảnh
+    // Nếu file hợp lệ, gửi file lên server
     const formData = new FormData();
     formData.append('ImageFile', file);
-
     try {
         const response = await api.postAPI('/Tour/UploadFile', formData);
-        Tour.value.countryImage = response.data; // Lưu đường dẫn ảnh trả về vào Country
-        errorMessage.value = ''; // Reset thông báo lỗi
+        if (response.data) {
+            Tour.value.image = response.data; // Lưu URL ảnh từ server
+            console.log("Ảnh đã được tải lên thành công:", response.data);
+        }
     } catch (error) {
-        console.error('Upload image failed:', error);
-        errorMessage.value = 'Lỗi khi tải lên hình ảnh. Vui lòng thử lại.';
-        //alert('Lỗi khi tải lên hình ảnh. Vui lòng thử lại.');
+        console.error("Có lỗi khi tải ảnh lên:", error);
+        alert("Đã có lỗi xảy ra khi tải ảnh lên!");
     }
 };
+
+
 const isLocal = [
     { id: 1, value: true },
     { id: 2, value: false },
@@ -519,8 +322,7 @@ const isLocal = [
 /**
  * define Tour
  */
-if(process.client)
-{
+if (process.client) {
     accountId.value = localStorage.getItem('userId');
 }
 const fetchData = async () => {
@@ -532,8 +334,8 @@ const fetchData = async () => {
     }
 };
 onMounted(async () => {
-    
-await fetchData();
+
+    await fetchData();
 
 })
 /** validate */
@@ -563,7 +365,7 @@ const createTour = () => {
     formData2.append('placeEnd', Tour.value.placeEnd);
     formData2.append('place', Tour.value.place);
     formData2.append('meetingPoint', Tour.value.meetingPoint);
-    formData2.append('appUserId',accountId.value);
+    formData2.append('appUserId', accountId.value);
     api.postAPI('/Tour/InsertTour', formData2)
         .then((res) => {
             emits('Tour-saved');
@@ -586,7 +388,7 @@ const updateTour = async () => {
         seat: Tour.value.seat || '',
         email: Tour.value.email || '',
         cost: isNaN(cleanCost) ? 0 : cleanCost,
-        isLocal:JSON.parse( Tour.value.isLocal) || false,
+        isLocal: JSON.parse(Tour.value.isLocal) || false,
         dateEnd: Tour.value.dateEnd || '',
         discount: Tour.value.discount || 0,
         dateStart: Tour.value.dateStart || '',
@@ -696,7 +498,7 @@ const computedValue = computed({
  * Reset input value after computed execute if it's not number
  * @param {*} event
  */
- const handleInput = (event) => {
+const handleInput = (event) => {
     const inputValue = event.target.value;
     const cleanedValue = inputValue.replace(/[^\d.]/g, ''); // Chỉ giữ lại các ký tự số và dấu chấm
     event.target.value = cleanedValue;
