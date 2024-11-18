@@ -28,7 +28,8 @@ namespace Doantour.Controllers
         public async Task<IActionResult> TestSendMailByStatus([FromForm] string to, [FromForm] string status, int id)
         {
             BackgroundJob.Schedule(() => emailService.SendBookingStatusEmailAsync(to, status, id), TimeSpan.FromSeconds(1));
-            return Ok(new { message = "Email scheduled to be sent in 1 seconds" });
+            //return Ok(new { message = "Email scheduled to be sent in 1 seconds" });
+            return Ok(new { message = "Email sẽ được lên lịch gửi" });
         }
         [HttpGet("GetTourDetail")]
         public virtual async Task<ResponseFormat> GetTourDetail(int bookingID)
@@ -119,18 +120,18 @@ namespace Doantour.Controllers
 
             return new ResponseFormat(HttpStatusCode.OK, "Search Success", insertResult);
         }
-        [HttpGet("getTourPaying")]
-        public virtual async Task<ResponseFormat> getTourPayinggetTourPaying()
-        {
-            var insertResult = await bookingService.getTourPaying();
+        //[HttpGet("getTourPaying")]
+        //public virtual async Task<ResponseFormat> getTourPayinggetTourPaying()
+        //{
+        //    var insertResult = await bookingService.getTourPaying();
 
-            if (insertResult == null)
-            {
-                return new ResponseFormat(HttpStatusCode.BadRequest, "Search fail", null);
-            }
+        //    if (insertResult == null)
+        //    {
+        //        return new ResponseFormat(HttpStatusCode.BadRequest, "Search fail", null);
+        //    }
 
-            return new ResponseFormat(HttpStatusCode.OK, "Search Success", insertResult);
-        }
+        //    return new ResponseFormat(HttpStatusCode.OK, "Search Success", insertResult);
+        //}
         [HttpPost("resetSlotAfterCancel")]
         public virtual async Task<ResponseFormat> resetSlotAfterCancel(int child, int adult, int tourId)
         {

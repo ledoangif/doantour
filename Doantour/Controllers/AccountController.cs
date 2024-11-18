@@ -59,7 +59,7 @@ namespace Doantour.Controllers
             var existingUser = await _userManager.FindByEmailAsync(account.Email);
             if (existingUser != null)
             {
-                return BadRequest("Email đã được sử dụng");
+                return BadRequest("Email này đã tồn tại.");
             }
             var result = await _service.Register(account);
             if (result.Succeeded)
@@ -101,7 +101,8 @@ namespace Doantour.Controllers
             var user = await _userManager.FindByEmailAsync(loginModel.Email);
             if (user == null)
             {
-                return NotFound(new { Message = "Tài khoản không tồn tại!" });
+                //return NotFound(new { Message = "Tài khoản không tồn tại!" });
+                return null;
             }
 
             // Kiểm tra mật khẩu có khớp không
